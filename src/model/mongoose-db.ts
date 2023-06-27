@@ -10,9 +10,13 @@ dotenv.config({
 });
 
 const dburl: string = process.env.DATABASE_URL || 'mongodb://localhost:27017/arithmetic-calculator-api';
-
-export const dbConnection = mongoose.connect(dburl, {
-  // dbName: 'arithmetic-calculator-api',
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true
-});
+// eslint-disable-next-line import/no-mutable-exports
+let dbConnection;
+if (process.env.NODE_ENV !== 'CI') {
+  dbConnection = mongoose.connect(dburl, {
+    // dbName: 'arithmetic-calculator-api',
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true
+  });
+}
+export { dbConnection };

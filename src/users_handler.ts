@@ -45,3 +45,8 @@ export const login: Handler = async (event: APIGatewayProxyEvent) => {
   const response = await usersController.login(event);
   return response;
 };
+
+export const logout: Handler = async (event: APIGatewayProxyEvent) => {
+  const response = await usersController.logout(event);
+  return response;
+};

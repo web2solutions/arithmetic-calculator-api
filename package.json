@@ -6,7 +6,7 @@
     "node": "^16.0.0"
   },
   "scripts": {
-    "data:seed": "NODE_ENV=dev DOTENV_CONFIG_PATH=config/.env.dev ts-node ./src/infra/data/seed.ts",
+    "data:seed": "ts-node ./src/infra/data/seed.ts",
     "postinstall": "",
     "clean": "rm -rf ./build",
     "build": "npm run clean && tsc --build tsconfig.json",
@@ -21,7 +21,7 @@
     "deploy": "cd .build && serverless deploy && cd ..",
     "build-deploy": "npm run build && npm run deploy",
     "pretest": "npm run lint",
-    "test": "NODE_ENV=dev DOTENV_CONFIG_PATH=config/.env.dev npx jest --config=jest.config.test.js --detectOpenHandles --verbose",
+    "test": "npx jest --config=jest.config.test.js --detectOpenHandles --verbose",
     "coverage": "nyc --reporter lcov npm run test",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix"
