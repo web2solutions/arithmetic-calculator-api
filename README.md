@@ -1,5 +1,5 @@
 
-# Arithmetic Calculator API [![CircleCI](https://dl.circleci.com/status-badge/img/gh/web2solutions/arithmetic-calculator-api/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/web2solutions/arithmetic-calculator-api/tree/main)
+# Arithmetic Calculator API
 
 This is a simple REST API built as coding challenge made for [TrueNorth](https://www.truenorth.co/).
 
