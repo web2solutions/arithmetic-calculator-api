@@ -40,3 +40,8 @@ export const deleteOne: Handler = async (event: APIGatewayProxyEvent) => {
   const response = await usersController.deleteOne(event);
   return response;
 };
+
+export const login: Handler = async (event: APIGatewayProxyEvent) => {
+  const response = await usersController.login(event);
+  return response;
+};

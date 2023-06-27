@@ -6,8 +6,8 @@
     "node": "^16.0.0"
   },
   "scripts": {
-    "data:seed": "ts-node ./src/infra/data/seed.ts",
-    "postinstall": "npm run data:seed",
+    "data:seed": "NODE_ENV=dev DOTENV_CONFIG_PATH=config/.env.dev ts-node ./src/infra/data/seed.ts",
+    "postinstall": "",
     "clean": "rm -rf ./build",
     "build": "npm run clean && tsc --build tsconfig.json",
     "postbuild": "cp serverless.yml ./build",
@@ -20,7 +20,7 @@
     "docker:clean": "docker system prune -a",
     "deploy": "cd .build && serverless deploy && cd ..",
     "build-deploy": "npm run build && npm run deploy",
-    "pretest": "npm run lint && npm run data:seed",
+    "pretest": "npm run lint",
     "test": "NODE_ENV=dev DOTENV_CONFIG_PATH=config/.env.dev npx jest --config=jest.config.test.js --detectOpenHandles --verbose",
     "coverage": "nyc --reporter lcov npm run test",
     "lint": "eslint . --ext .ts",
@@ -32,18 +32,24 @@
   "dependencies": {
     "aws-lambda": "^1.0.7",
     "dotenv": "^16.3.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.3.1",
     "source-map-support": "^0.5.21"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
+    "@babel/preset-typescript": "^7.18.6",
     "@types/aws-lambda": "^8.10.51",
     "@types/dotenv-safe": "^8.1.2",
     "@types/jest": "^29.5.2",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/lambda-tester": "^3.6.2",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
+    "babel-jest": "^29.0.3",
     "cross-env": "^7.0.3",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
@@ -60,11 +66,7 @@
     "serverless-plugin-typescript": "^2.1.5",
     "ts-node": "^10.9.1",
     "typescript": "4.4.4",
-    "typescript-eslint": "0.0.1-alpha.0",
-    "@babel/core": "^7.19.1",
-    "@babel/preset-env": "^7.19.1",
-    "@babel/preset-typescript": "^7.18.6",
-    "babel-jest": "^29.0.3"
+    "typescript-eslint": "0.0.1-alpha.0"
   },
   "repository": {
     "type": "git",

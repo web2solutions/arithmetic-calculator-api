@@ -1,4 +1,5 @@
 import { Model } from 'mongoose';
+import * as jwt from 'jsonwebtoken';
 import { CreateUserDTO } from '../model/dto/createUserDTO';
 import { UpdateUserDTO } from '../model/dto/updateUserDTO';
 import { UsersDocument } from '../model';
@@ -117,20 +118,43 @@ export class UsersService {
     }
   }
 
-  protected async loginUser(data: loginDTO): Promise<string | boolean> {
+  protected async loginUser(data: loginDTO): Promise<Record<string, string> | boolean> {
+    const secret = process.env.TOKEN_KEY || '';
     try {
-      const token = '';
+      /* eslint-disable-next-line no-console */
+      console.log('process.env.TOKEN_KEY', process.env.TOKEN_KEY);
+      /* eslint-disable-next-line no-console */
+      console.log('process.env', process.env);
       const { username, password } = data;
       const record = await this.users.findOne({
         username,
         password,
       });
       if (!record) {
-        // create token
         return false;
       }
-      return token;
+      if (record.token) {
+        // verify
+        const decoded = jwt.verify(record.token, secret);
+        /* eslint-disable-next-line no-console */
+        console.log('DECODED', decoded);
+        return { token: record.token };
+      }
+      const userId = record.id;
+      const token = jwt.sign(
+        { user_id: userId, username },
+        secret,
+        { expiresIn: 60 * 60 }, // one hour
+      );
+      await this.users.findOneAndUpdate(
+        { _id: userId },
+        { $set: { token } },
+        { new: true },
+      );
+      return { token };
     } catch (err: unknown) {
+      /* eslint-disable-next-line no-console */
+      console.log(err);
       if (err instanceof Error) {
         throw new ServiceError({
           message: err.message,

@@ -98,6 +98,13 @@ functions:
           path: users/{id}
           method: delete
           cors: true
+  user_login:
+    handler: src/users_handler.login
+    events:
+      - http:
+          path: users/login
+          method: post
+          cors: true
   # operation
   operation_create:
     handler: src/operations_handler.create
