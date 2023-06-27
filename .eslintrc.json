@@ -1,0 +1,140 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "jest",
+    "@typescript-eslint",
+    "no-async-foreach"
+  ],
+  "extends": [
+    "airbnb-base",
+    "plugin:jest/all",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "root": true,
+  "globals": {},
+  "rules": {
+    "import/extensions": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/require-await": "error",
+    "@typescript-eslint/await-thenable": "error",
+    "@typescript-eslint/no-misused-promises": "error",
+    "@typescript-eslint/no-floating-promises": "error",
+    "no-async-foreach/no-async-foreach": "error",
+    "no-await-in-loop" : "error",
+    "no-promise-executor-return": "error",
+    "require-atomic-updates": "error",
+    "no-return-await" : "error",
+    "prefer-promise-reject-errors": "error",
+    "no-console": 2,
+    "no-shadow": "off",
+    "no-use-before-define": "off",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.ts",
+          "esbuild-plugins.js"
+        ]
+      }
+    ],
+    "import/no-unresolved": [
+      2,
+      {
+        "commonjs": true,
+        "amd": true
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "off",
+    "jest/prefer-spy-on": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 150,
+        "ignoreComments": true,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "ignore"
+      }
+    ],
+    "lines-between-class-members": "off",
+    "jest/no-hooks": [
+      "error",
+      {
+        "allow": [
+          "beforeEach"
+        ]
+      }
+    ]
+  },
+  "env": {
+    "jest": true
+  },
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-member-accessibility": ["error", {
+          "accessibility": "explicit",
+          "overrides": {
+            "accessors": "explicit", // check this if is there problems with interfaces
+            "constructors": "off",
+            "methods": "explicit",
+            "properties": "explicit",
+            "parameterProperties": "explicit"
+          }
+        }]
+      }
+    },
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": ["error"]
+      }
+    }
+  ],
+  "ignorePatterns": [""],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@src", "./src"],
+          ["@tests", "./tests"],
+          ["@integration-tests", "./integration-tests"],
+          ["@e2e-tests", "./e2e-tests"]
+        ],
+        "extensions": [".ts", ".js"]
+      },
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
+  }
+}

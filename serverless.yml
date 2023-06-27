@@ -1,0 +1,172 @@
+service: aws-node-rest-api-typescript
+
+frameworkVersion: "3"
+
+useDotenv: true
+
+custom:
+  #datadog:
+    # uncomment next line to use datadog forwarder
+    #forwarder: 'arn::of::datadog::forwarder::lambda'
+    # enableDDTracing: false # disables default dd-trace.init() in datadog-lambda-js
+  #esbuild:
+  #  bundle: true
+  #  target: node14
+  #  minify: false
+  #  sourcemap: true
+  #  keepNames: true
+  #  plugins: ./esbuild-plugins.js
+  #  exclude: '*'
+  #  watch:
+  #    pattern: ['src/**/*.ts'] # match only typescript files in src directory
+  #    ignore: ['build/**/*']
+  dotenv:
+    # default: project root
+    path: config/.env.dev
+  serverless-offline:
+    httpPort: 3000
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-dotenv-plugin
+  - serverless-offline    
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  # environment: ${file(configs.js)}
+  region: us-east-2
+  memorySize: 128
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+  profile: default
+  stage: dev
+
+package:
+  individually: true
+  exclude:
+    - config/.env.stg
+    - config/.env.pro
+    - tests/**
+    - '*.txt'
+    - '*.yml'
+    - '*.iml'
+    - '*.json'
+    - '*.md'
+    - '*.zip'
+    - '*.csv'
+    - /**
+  include:
+    - config/.env.dev
+    - src/**
+    - package.json
+
+functions:
+  # user
+  user_create:
+    handler: src/users_handler.create
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
+  user_update:
+    handler: src/users_handler.update
+    events:
+      - http:
+          path: users/{id}
+          method: put
+          cors: true
+  user_find:
+    handler: src/users_handler.find
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
+  user_findOne:
+    handler: src/users_handler.findOne
+    events:
+      - http:
+          path: users/{id}
+          method: get
+          cors: true
+  user_deleteOne:
+    handler: src/users_handler.deleteOne
+    events:
+      - http:
+          path: users/{id}
+          method: delete
+          cors: true
+  # operation
+  operation_create:
+    handler: src/operations_handler.create
+    events:
+      - http:
+          path: operations
+          method: post
+          cors: true
+  operation_update:
+    handler: src/operations_handler.update
+    events:
+      - http:
+          path: operations/{id}
+          method: put
+          cors: true
+  operation_find:
+    handler: src/operations_handler.find
+    events:
+      - http:
+          path: operations
+          method: get
+          cors: true
+  operation_findOne:
+    handler: src/operations_handler.findOne
+    events:
+      - http:
+          path: operations/{id}
+          method: get
+          cors: true
+  operation_deleteOne:
+    handler: src/operations_handler.deleteOne
+    events:
+      - http:
+          path: operations/{id}
+          method: delete
+          cors: true
+  # record
+  record_create:
+    handler: src/records_handler.create
+    events:
+      - http:
+          path: records
+          method: post
+          cors: true
+  record_update:
+    handler: src/records_handler.update
+    events:
+      - http:
+          path: records/{id}
+          method: put
+          cors: true
+  record_find:
+    handler: src/records_handler.find
+    events:
+      - http:
+          path: records
+          method: get
+          cors: true
+  record_findOne:
+    handler: src/records_handler.findOne
+    events:
+      - http:
+          path: records/{id}
+          method: get
+          cors: true
+  record_deleteOne:
+    handler: src/records_handler.deleteOne
+    events:
+      - http:
+          path: records/{id}
+          method: delete
+          cors: true

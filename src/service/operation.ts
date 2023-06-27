@@ -1,0 +1,118 @@
+import { Model } from 'mongoose';
+import { CreateOperationDTO } from '../model/dto/createOperationDTO';
+import { UpdateOperationDTO } from '../model/dto/updateOperationDTO';
+import { OperationsDocument } from '../model';
+import { ServiceError } from '../infra/ServiceError';
+import { IPagingRequest } from '../infra/interface/IPagingRequest';
+import { IPagingResponse } from '../infra/interface/IPagingResponse';
+
+export class OperationsService {
+  private operations: Model<OperationsDocument>;
+  constructor(operations: Model<OperationsDocument>) {
+    this.operations = operations;
+  }
+
+  protected async createOperation(params: CreateOperationDTO): Promise<OperationsDocument> {
+    try {
+      const result = await this.operations.create({
+        type: params.type,
+        cost: params.cost,
+      });
+
+      return result;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new ServiceError({
+          message: err.message,
+        });
+      }
+      throw err;
+    }
+  }
+
+  protected async updateOperations(_id: string, data: UpdateOperationDTO): Promise<OperationsDocument | null> {
+    try {
+      const record = await this.operations.findOneAndUpdate(
+        { _id },
+        { $set: data },
+        { new: true },
+      );
+      return record;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new ServiceError({
+          message: err.message,
+        });
+      }
+      throw err;
+    }
+  }
+
+  protected async findOperations(
+    filters: Record<string, string|number> = {},
+    paging: IPagingRequest
+  ): Promise<IPagingResponse<Array<OperationsDocument>>> {
+    let { page, size } = paging;
+    page = page ? Math.round(page) : 1;
+    size = size ? Math.round(size) : 20;
+    let query = {
+      status: 'active',
+    };
+    if (filters) {
+      query = { ...filters, ...query };
+    }
+    try {
+      const skip = (page * size) - size;
+      const result = await this.operations.find(query).limit(size).skip(skip); // .sort( '-createdOn' )
+      const total = await this.operations.count();
+      return {
+        result, page, size, total,
+      };
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new ServiceError({
+          message: err.message,
+        });
+      }
+      throw err;
+    }
+  }
+
+  protected async findOneOperationById(_id: string): Promise<OperationsDocument | null> {
+    try {
+      const record = await this.operations.findOne({
+        _id,
+        status: 'active',
+      });
+      return record;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new ServiceError({
+          message: err.message,
+        });
+      }
+      throw err;
+    }
+  }
+
+  protected async deleteOneOperationById(_id: string): Promise<boolean> {
+    try {
+      await this.operations.findOneAndUpdate(
+        {
+          _id,
+          status: 'active',
+        },
+        { $set: { status: 'inactive' } },
+        { new: false },
+      );
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new ServiceError({
+          message: err.message,
+        });
+      }
+      throw err;
+    }
+  }
+}

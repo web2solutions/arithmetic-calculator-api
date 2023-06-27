@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  backend-arithmetic-calculator-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend-arithmetic-calculator-api
+    container_name: backend-arithmetic-calculator-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    env_file: config/.env.docker
+    environment:
+      - NODE_ENV=dev
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - app-network
+    command: >
+      sh -c "npm start"
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - dbdata6:/data/db
+    networks:
+      - app-network
+volumes:
+  dbdata6:
+
+networks:
+    app-network:
+      driver: bridge

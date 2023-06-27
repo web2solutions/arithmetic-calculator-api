@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "module": "commonjs",
+    "target": "es2020",
+    "types": ["node", "jest"],
+    "outDir": ".build",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+  },
+  "include": ["./**/*.ts"],
+  "exclude": ["node_modules"]
+}
