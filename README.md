@@ -3,7 +3,7 @@
 
 This is a simple REST API built as coding challenge made for [TrueNorth](https://www.truenorth.co/).
 
-See the [requirement's list](../TrueNorth_LoanPro_Coding_Challenge.pdf).
+See the [requirement's list](./TrueNorth_LoanPro_Coding_Challenge.pdf).
 
 ## Stack
 
