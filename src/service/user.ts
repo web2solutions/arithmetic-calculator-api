@@ -1,5 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Model } from 'mongoose';
 import * as jwt from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import { CreateUserDTO } from '../model/dto/createUserDTO';
 import { UpdateUserDTO } from '../model/dto/updateUserDTO';
 import { UsersDocument } from '../model';
@@ -10,8 +12,10 @@ import { loginDTO } from '../model/dto/loginDTO';
 
 export class UsersService {
   private users: Model<UsersDocument>;
+  private tokenSecret: string;
   constructor(users: Model<UsersDocument>) {
     this.users = users;
+    this.tokenSecret = process.env.TOKEN_KEY || '';
   }
 
   protected async createUser(params: CreateUserDTO): Promise<UsersDocument | undefined> {
@@ -118,44 +122,85 @@ export class UsersService {
     }
   }
 
+  protected decodeToken(token: string): JwtPayload | null {
+    let valid = null;
+    try {
+      valid = jwt.verify(token, this.tokenSecret) as JwtPayload;
+    } catch (error) {
+      valid = null;
+    }
+    return valid;
+  }
+
+  protected generateToken(user: UsersDocument): string {
+    const token = jwt.sign(
+      { user_id: user.id, username: user.username },
+      this.tokenSecret,
+      { expiresIn: 60 * 60 }, // one hour
+    );
+    return token;
+  }
+
   protected async loginUser(data: loginDTO): Promise<Record<string, string> | boolean> {
-    const secret = process.env.TOKEN_KEY || '';
     try {
       /* eslint-disable-next-line no-console */
-      console.log('process.env.TOKEN_KEY', process.env.TOKEN_KEY);
+      // console.log('process.env.TOKEN_KEY', process.env.TOKEN_KEY);
       /* eslint-disable-next-line no-console */
-      console.log('process.env', process.env);
+      // console.log('process.env', process.env);
       const { username, password } = data;
-      const record = await this.users.findOne({
+      const userFound = await this.users.findOne({
         username,
         password,
       });
-      if (!record) {
+      if (!userFound) {
         return false;
       }
-      if (record.token) {
-        // verify
-        const decoded = jwt.verify(record.token, secret);
-        /* eslint-disable-next-line no-console */
-        console.log('DECODED', decoded);
-        return { token: record.token };
+      if (userFound.token) {
+        const token = this.decodeToken(userFound.token);
+        if (token !== null) {
+          /* eslint-disable-next-line no-console */
+          console.log('DECODED', userFound.token);
+          return { token: userFound.token };
+        }
       }
-      const userId = record.id;
-      const token = jwt.sign(
-        { user_id: userId, username },
-        secret,
-        { expiresIn: 60 * 60 }, // one hour
-      );
+      const token = this.generateToken(userFound);
       await this.users.findOneAndUpdate(
-        { _id: userId },
+        { _id: userFound.id },
         { $set: { token } },
         { new: true },
       );
       return { token };
     } catch (err: unknown) {
-      /* eslint-disable-next-line no-console */
-      console.log(err);
       if (err instanceof Error) {
+        /* eslint-disable-next-line no-console */
+        console.log('name', err.name);
+        /* eslint-disable-next-line no-console */
+        console.log('message', err.message);
+        throw new ServiceError({
+          message: err.message,
+        });
+      }
+      throw err;
+    }
+  }
+
+  protected async logoutUser(username: string, token: string): Promise<boolean> {
+    try {
+      const userFound = await this.users.findOneAndUpdate(
+        { username, token },
+        { $set: { token: '' } },
+        { new: false },
+      );
+      if (!userFound) {
+        return false;
+      }
+      return true;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        /* eslint-disable-next-line no-console */
+        console.log('name', err.name);
+        /* eslint-disable-next-line no-console */
+        console.log('message', err.message);
         throw new ServiceError({
           message: err.message,
         });
