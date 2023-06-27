@@ -3,12 +3,13 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { users, operations, records } from '../../model';
+import { dbConnection, users, operations, records } from '../../model';
 import { initialUsersRecords } from '../../../tests/users.mock';
 import { initialOperationsRecords } from '../../../tests/operations.mock';
 import { initialRecordsRecords } from '../../../tests/records.mock';
 
 (async (): Promise<void> => {
+  console.log(dbConnection);
   let collectionName = 'Users';
   console.info(`===========> Seeding - ${collectionName}`);
   console.log(`     >> deleting all records from ${collectionName} collection`);
