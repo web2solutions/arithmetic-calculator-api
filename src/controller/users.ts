@@ -139,4 +139,23 @@ export class UsersController extends UsersService {
       return Response.error(err as ServiceError);
     }
   }
+
+  public async logout(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+    // eslint-disable-next-line no-console
+    // console.log(event, context);
+    try {
+      const params = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+      const { username, token } = params;
+      if (!(username && token)) {
+        throw new ServiceError({
+          code: 400,
+          message: 'username and token are mandatory',
+        });
+      }
+      const result = await this.logoutUser(username, token);
+      return Response.success(result);
+    } catch (err) {
+      return Response.error(err as ServiceError);
+    }
+  }
 }
