@@ -1,39 +1,21 @@
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/node:12.10
-        environment:
-          - NODE_ENV: "dev"
-      - image: circleci/mongo:4.4
-        environment:
-          MONGO_USERNAME: mongouser
-          MONGO_PASSWORD: mongopass
-    working_directory: ~/app
-    steps:
-      #- run:
-      #    name: MongoDB Install
-      #    command: |
-      #       sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-      #       echo "deb [ arch=amd64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-      #       sudo apt-get install apt-transport-https
-      #       sudo apt-get update
-      #       sudo apt-get install -y mongodb-org-shell
-      - setup_remote_docker
-      - run:
-          name: Waiting for Mongo
-          command: dockerize -wait tcp://localhost:27017 -timeout 1m
-      - checkout
-      #- run:
-      #    name: MongoDB Install
-      #    command: |
-      #      sudo apt-get install -y mongodb
-      #- run:
-      #    name: Database Setup
-      #    command: "mongodb"
-      - run:
-          name: Install package json dependencies
-          command: npm install
-      - run:
-          name: Run test
-          command: npm test
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  node: circleci/node@4.7
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+workflows:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - node/test:
+          # This is the node version to use for the `cimg/node` tag
+          # Relevant tags can be found on the CircleCI Developer Hub
+          # https://circleci.com/developer/images/image/cimg/node
+          version: '18.9.0' #16.20
+          # If you are using yarn, change the line below from "npm" to "yarn"
+          pkg-manager: npm
