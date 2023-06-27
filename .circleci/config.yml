@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:16.20.0
+      - image: circleci/node:16.20
         environment:
           - NODE_ENV: "dev"
       - image: circleci/mongo:4.4
