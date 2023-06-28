@@ -46,15 +46,11 @@ describe('integration testing - Users', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const context = contextCreateUser as any;
       const response = await create(eventCreateUser, context, () => 0);
-      // eslint-disable-next-line no-console
-      // console.log(response);
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(201);
       const responseBody = JSON.parse(response.body);
       const requestBody = JSON.parse(eventCreateUser.body);
       expect(responseBody.data.password).toStrictEqual(requestBody.password);
-      // eslint-disable-next-line no-underscore-dangle
-      // createdId = responseBody._id;
     });
     it('should not properly create existing user', async () => {
       expect.hasAssertions();
@@ -68,11 +64,9 @@ describe('integration testing - Users', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const context = contextCreateUser as any;
       const response = await create(eventCreateUser, context, () => 0);
-      // eslint-disable-next-line no-console
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(500);
       const responseBody = JSON.parse(response.body);
-      // const requestBody = JSON.parse(eventCreateUser.body);
       expect(responseBody.message).toStrictEqual(createUserErrorString);
     });
     it('should not properly create user with invalid username', async () => {
@@ -91,11 +85,9 @@ describe('integration testing - Users', () => {
       newBody.username = 'invalid email';
       originalRecord.body = JSON.stringify(newBody);
       const response = await create(originalRecord, context, () => 0);
-      // eslint-disable-next-line no-console
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(400);
       const responseBody = JSON.parse(response.body);
-      // const requestBody = JSON.parse(eventCreateUser.body);
       expect(responseBody.message).toStrictEqual('username must be a valid email address');
     });
   });
@@ -116,7 +108,6 @@ describe('integration testing - Users', () => {
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(200);
       const responseBody = JSON.parse(response.body);
-      // const requestBody = JSON.parse(eventUpdateUserPassword.body);
       expect(responseBody.data.password).toStrictEqual(newPasswordRecord.password);
     });
     it('should not properly update username and set an existing username', async () => {
@@ -127,16 +118,12 @@ describe('integration testing - Users', () => {
           code: 500,
         }))
       );
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const context = contextCreateUser as any;
       const response = await update(eventUpdateExistingUserUsername, context, () => 0);
-      // eslint-disable-next-line no-console
-      // console.log(response);
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(500);
       const responseBody = JSON.parse(response.body);
-      // const requestBody = JSON.parse(eventCreateUser.body);
       expect(responseBody.message).toStrictEqual(createUserErrorString);
     });
     it('should not properly update username and set a invalid username', async () => {
@@ -147,7 +134,6 @@ describe('integration testing - Users', () => {
           code: 400,
         }))
       );
-
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const context = contextCreateUser as any;
       const originalRecord = { ...eventUpdateExistingUserUsername };
@@ -155,12 +141,9 @@ describe('integration testing - Users', () => {
       newBody.username = 'invalid email';
       originalRecord.body = JSON.stringify(newBody);
       const response = await update(originalRecord, context, () => 0);
-      // eslint-disable-next-line no-console
-      // console.log(response);
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(400);
       const responseBody = JSON.parse(response.body);
-      // const requestBody = JSON.parse(eventCreateUser.body);
       expect(responseBody.message).toStrictEqual('username must be a valid email address');
     });
   });
@@ -183,8 +166,6 @@ describe('integration testing - Users', () => {
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(200);
       const responseBody = JSON.parse(response.body);
-      // eslint-disable-next-line no-console
-      // console.log(responseBody.data[0], initialUsersRecords[0]);
       expect(responseBody.data.result).toHaveLength(initialUsersRecords.length);
     });
 
@@ -207,8 +188,6 @@ describe('integration testing - Users', () => {
       expect(mockedService).toHaveBeenCalledTimes(1);
       expect(response.statusCode).toStrictEqual(200);
       const responseBody = JSON.parse(response.body);
-      // eslint-disable-next-line no-console
-      // console.log(responseBody.data, initialUsersRecords[0]);
       expect(responseBody.data.page).toBe(1);
       expect(responseBody.data.size).toBe(2);
       expect(responseBody.data.result).toHaveLength(2);

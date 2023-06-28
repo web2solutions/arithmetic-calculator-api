@@ -134,6 +134,12 @@ export class UsersController extends UsersService {
         username,
         password,
       });
+      if (!result) {
+        throw new ServiceError({
+          message: 'user not found',
+          code: 404,
+        });
+      }
       return Response.success(result);
     } catch (err) {
       return Response.error(err as ServiceError);

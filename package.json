@@ -13,7 +13,7 @@
     "postbuild": "cp serverless.yml ./build",
     "start": "npm run local:start:docker",
     "local:start:dev": "npm run lint && serverless offline",
-    "local:start:docker": "npm run clean && npm run lint && serverless offline  --useDocker",
+    "local:start:docker": "npm run clean && npm run lint && serverless offline  --host 0.0.0.0  --useDocker",
     "docker:compose": "docker compose -f \"docker-compose.yml\" up -d --build",
     "docker:stop": "docker-compose stop",
     "docker:restart": "docker compose -f \"docker-compose.yml\" down && npm run docker:compose",

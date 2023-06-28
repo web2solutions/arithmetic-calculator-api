@@ -141,7 +141,7 @@ export class UsersService {
     return token;
   }
 
-  protected async loginUser(data: loginDTO): Promise<Record<string, string> | boolean> {
+  protected async loginUser(data: loginDTO): Promise<UsersDocument | boolean> {
     try {
       /* eslint-disable-next-line no-console */
       // console.log('process.env.TOKEN_KEY', process.env.TOKEN_KEY);
@@ -160,16 +160,16 @@ export class UsersService {
         if (token !== null) {
           /* eslint-disable-next-line no-console */
           console.log('DECODED', userFound.token);
-          return { token: userFound.token };
+          return userFound as UsersDocument;
         }
       }
       const token = this.generateToken(userFound);
-      await this.users.findOneAndUpdate(
+      const updatedUser = await this.users.findOneAndUpdate(
         { _id: userFound.id },
         { $set: { token } },
         { new: true },
       );
-      return { token };
+      return updatedUser as UsersDocument;
     } catch (err: unknown) {
       if (err instanceof Error) {
         /* eslint-disable-next-line no-console */

@@ -21,7 +21,7 @@ const usersSchema = new mongoose.Schema({
   username: {
     type: String, index: true, unique: true, required: true,
   },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false },
   status: { type: String, default: EUserStatus.inactive },
   token: { type: String, default: '' },
 }, {
