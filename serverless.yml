@@ -33,7 +33,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs18.x
   # environment: ${file(configs.js)}
   region: us-east-2
   memorySize: 128

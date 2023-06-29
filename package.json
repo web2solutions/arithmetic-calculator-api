@@ -3,18 +3,21 @@
   "version": "1.0.0",
   "description": "Arithmetic Calculator REST API - TrueNorth coding challenge.",
   "engines": {
-    "node": "^16.0.0"
+    "node": "^18.16.0"
   },
   "scripts": {
     "data:seed": "ts-node ./src/infra/data/seed.ts",
     "postinstall": "",
-    "clean": "rm -rf ./build",
-    "build": "npm run clean && tsc --build tsconfig.json",
-    "postbuild": "cp serverless.yml ./build",
+    "clean:build": "rm -rf ./.build",
+    "clean:all": "rm -rf ./.build && rm -rf ./node_modules && rm package-lock.json",
+    "clean:install": "rm -rf ./.build && rm -rf ./node_modules && npm install",
+    "build": "npm run clean:build && tsc --build tsconfig.json",
+    "postbuild": "cp serverless.yml .build",
     "start": "npm run local:start:docker",
     "local:start:dev": "npm run lint && serverless offline",
-    "local:start:docker": "npm run clean && npm run lint && serverless offline  --host 0.0.0.0  --useDocker",
-    "docker:compose": "docker compose -f \"docker-compose.yml\" up -d --build",
+    "local:start:docker": "rm -rf .build && serverless offline  --host 0.0.0.0  --useDocker",
+    "docker:compose:all": "docker compose -f \"docker-compose.yml\" up -d --build",
+    "docker:compose:daemon": "docker compose -f \"docker-compose-daemon-only.yml\" up -d --build",
     "docker:stop": "docker-compose stop",
     "docker:restart": "docker compose -f \"docker-compose.yml\" down && npm run docker:compose",
     "docker:clean": "docker system prune -a",
@@ -22,7 +25,6 @@
     "build-deploy": "npm run build && npm run deploy",
     "pretest": "npm run lint",
     "test": "npx jest --config=jest.config.test.js --detectOpenHandles --verbose",
-    "coverage": "nyc --reporter lcov npm run test",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix"
   },

@@ -11,21 +11,36 @@ See the [requirement's list](./TrueNorth_LoanPro_Coding_Challenge.pdf).
 
 ## Stack
 
-* Node.js
+* Node.js - 14.20 (serverless and old docker requirements, I'm sorry, I'm on an old Mac)
 * TypeScript
 * MongoDB
+* Redis
 * Jest
 * AWS lambda
 * Eslint
 * Docker
 * serverless and serverless-offline
 
-## Start development env without docker
+## Start development env using your current NodeJS installation:
 
 You need to install the project first:
 
 ```bash
 npm install
+```
+
+Before running start the API, you must have Mongo and Redis installed first.
+
+You can manually install them, or, you can use docker to install it by running:
+
+```bash
+npm run docker:compose:daemon
+```
+
+You probably want to run the current test suite implementation:
+
+```bash
+npm test
 ```
 
 An then you can start the dev environment by running:

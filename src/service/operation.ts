@@ -55,12 +55,14 @@ export class OperationsService {
     let { page, size } = paging;
     page = page ? Math.round(page) : 1;
     size = size ? Math.round(size) : 20;
-    let query = {
-      status: 'active',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let query: any = {
+      // status: 'active',
     };
     if (filters) {
       query = { ...filters, ...query };
     }
+    delete query.status;
     try {
       const skip = (page * size) - size;
       const result = await this.operations.find(query).limit(size).skip(skip); // .sort( '-createdOn' )

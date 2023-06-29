@@ -24,6 +24,7 @@ export class UsersService {
         username: params.username,
         password: params.password,
         status: params.status, // default is active
+        admin: params.admin,
       });
       return result;
     } catch (err: unknown) {
@@ -62,7 +63,7 @@ export class UsersService {
     page = page ? Math.round(page) : 1;
     size = size ? Math.round(size) : 20;
     let query = {
-      status: 'active',
+      // status: 'active',
     };
     if (filters) {
       query = { ...filters, ...query };
