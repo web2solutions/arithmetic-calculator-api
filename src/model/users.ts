@@ -11,6 +11,7 @@ export type UsersDocument = mongoose.Document & {
   password: string,
   status: EUserStatus,
   token: string,
+  admin: boolean,
 };
 
 const usersSchema = new mongoose.Schema({
@@ -24,6 +25,7 @@ const usersSchema = new mongoose.Schema({
   password: { type: String, required: true, select: false },
   status: { type: String, default: EUserStatus.inactive },
   token: { type: String, default: '' },
+  admin: { type: Boolean, default: false },
 }, {
   toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`
 });

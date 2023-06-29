@@ -4,4 +4,5 @@ export interface UpdateUserDTO {
   username?: string;
   password?: string;
   status?: EUserStatus;
+  admin?: boolean;
 }

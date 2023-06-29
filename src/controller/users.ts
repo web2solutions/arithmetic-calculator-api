@@ -10,6 +10,7 @@ import { UsersDocument } from '../model/users';
 import { ServiceError } from '../infra/ServiceError';
 import { IPagingRequest } from '../infra/interface/IPagingRequest';
 import { setFilterAndPaging } from '../utils/setFilterAndPaging';
+import { isEmail } from '../utils/isEmail';
 
 export class UsersController extends UsersService {
   // eslint-disable-next-line no-useless-constructor
@@ -20,17 +21,16 @@ export class UsersController extends UsersService {
   public async create(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
     try {
       const params: CreateUserDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
-      const { username, password, status } = params;
+      const {
+        username, password, status, admin,
+      } = params;
       if (!(username && password)) {
         throw new ServiceError({
           code: 400,
           message: 'username and password are mandatory',
         });
       }
-      if (!String(username).toLowerCase().match(
-        // eslint-disable-next-line max-len
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )) {
+      if (!isEmail(username)) {
         throw new ServiceError({
           code: 400,
           message: 'username must be a valid email address',
@@ -40,6 +40,7 @@ export class UsersController extends UsersService {
         username,
         password,
         status,
+        admin,
       });
       return Response.created(result);
     } catch (err) {
@@ -60,10 +61,7 @@ export class UsersController extends UsersService {
       }
       const body: UpdateUserDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
       if (body.username) {
-        if (!String(body.username).toLowerCase().match(
-          // eslint-disable-next-line max-len
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        )) {
+        if (!isEmail(body.username)) {
           throw new ServiceError({
             code: 400,
             message: 'username must be a valid email address',
