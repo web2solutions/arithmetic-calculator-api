@@ -113,6 +113,13 @@ functions:
           path: users/logout
           method: post
           cors: true
+  user_register:
+    handler: src/users_handler.register
+    events:
+      - http:
+          path: users/register
+          method: post
+          cors: true
   # operation
   operation_create:
     handler: src/operations_handler.create
