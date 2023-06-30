@@ -21,6 +21,8 @@ export class JwtService {
     try {
       valid = jwt.verify(token, this.secret) as JwtPayload;
     } catch (error) {
+      // eslint-disable-next-line no-console
+      // console.log(error);
       valid = null;
     }
     return valid;
