@@ -41,6 +41,25 @@ export class UsersService {
     }
   }
 
+  protected async registerUser(params: CreateUserDTO): Promise<UsersDocument | undefined> {
+    try {
+      const result = await this.users.create({
+        username: params.username,
+        password: params.password,
+        status: params.status, // default is active
+        admin: false,
+      });
+      return result;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        throw new ServiceError({
+          message: err.message,
+        });
+      }
+      throw err;
+    }
+  }
+
   protected async updateUsers(_id: string, data: UpdateUserDTO): Promise<UsersDocument | null> {
     try {
       const record = await this.users.findOneAndUpdate(
