@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { Model } from 'mongoose';
 import { Response } from '../utils/message';
+import { CacheService } from '../service/CacheService';
 import { UsersService } from '../service/user';
 import { CreateUserDTO } from '../model/dto/createUserDTO';
 import { UpdateUserDTO } from '../model/dto/updateUserDTO';
@@ -11,11 +12,12 @@ import { ServiceError } from '../infra/ServiceError';
 import { IPagingRequest } from '../infra/interface/IPagingRequest';
 import { setFilterAndPaging } from '../utils/setFilterAndPaging';
 import { isEmail } from '../utils/isEmail';
+import { IJwtService } from '../service/JwtService';
 
 export class UsersController extends UsersService {
   // eslint-disable-next-line no-useless-constructor
-  constructor(users: Model<UsersDocument>) {
-    super(users);
+  constructor(users: Model<UsersDocument>, cacheService: CacheService, jwtService: IJwtService) {
+    super(users, cacheService, jwtService);
   }
 
   public async create(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {

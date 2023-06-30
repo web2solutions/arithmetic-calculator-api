@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  backend-arithmetic-calculator-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: backend-arithmetic-calculator-api
+    container_name: backend-arithmetic-calculator-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+      - cache
+    env_file: config/.env.dev
+    environment:
+      - NODE_ENV=dev
+      - REDIS_HOST=cache
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - app-network
+    command: >
+      sh -c "npm start"
+
+networks:
+    app-network:
+      driver: bridge

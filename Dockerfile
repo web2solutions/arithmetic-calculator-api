@@ -1,11 +1,12 @@
-FROM node:18.16
+FROM node:16.20.0
+# FROM public.ecr.aws/lambda/nodejs:16.2023.06.28.12
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install serverless globally
-RUN npm i -g serverless
-RUN npm i -g clean-modules
+# RUN npm i -g serverless
+# RUN npm i -g clean-modules
 
 # RUN apt-get update && apt-get install -y python3 zip
 # RUN curl -sO https://bootstrap.pypa.io/pip/3.3/get-pip.py
@@ -32,4 +33,4 @@ RUN node -v && rm -rf node_modules && rm -rf package-lock.json && rm -rf .build 
 
 EXPOSE 3000
 
-CMD ["npm","start"]
+CMD ["sls", "offline", "--host", "0.0.0.0"]

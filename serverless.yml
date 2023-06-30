@@ -1,4 +1,4 @@
-service: aws-node-rest-api-typescript
+service: arithmetic-calculator-api
 
 frameworkVersion: "3"
 
@@ -25,6 +25,7 @@ custom:
     path: config/.env.dev
   serverless-offline:
     httpPort: 3000
+    host: 0.0.0.0
 
 plugins:
   - serverless-plugin-typescript
@@ -33,7 +34,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs16.x
   # environment: ${file(configs.js)}
   region: us-east-2
   memorySize: 128

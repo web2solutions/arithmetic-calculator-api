@@ -11,7 +11,7 @@ See the [requirement's list](./TrueNorth_LoanPro_Coding_Challenge.pdf).
 
 ## Stack
 
-* Node.js - 14.20 (serverless and old docker requirements, I'm sorry, I'm on an old Mac)
+* Node.js
 * TypeScript
 * MongoDB
 * Redis
@@ -49,10 +49,10 @@ An then you can start the dev environment by running:
 npm run local:start:dev
 ```
 
-## Start development env using Docker
+## Start Mongo and Redis using Docker
 
 ```bash
-npm run docker:compose
+npm run docker:compose:daemon
 ```
 
 `Stop Docker environment`

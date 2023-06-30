@@ -1,7 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { Model } from 'mongoose';
-import * as jwt from 'jsonwebtoken';
-import { JwtPayload } from 'jsonwebtoken';
 import { CreateUserDTO } from '../model/dto/createUserDTO';
 import { UpdateUserDTO } from '../model/dto/updateUserDTO';
 import { UsersDocument } from '../model';
@@ -9,13 +7,19 @@ import { ServiceError } from '../infra/ServiceError';
 import { IPagingRequest } from '../infra/interface/IPagingRequest';
 import { IPagingResponse } from '../infra/interface/IPagingResponse';
 import { loginDTO } from '../model/dto/loginDTO';
+import { CacheService } from './CacheService';
+import { IJwtService } from './JwtService';
 
 export class UsersService {
   private users: Model<UsersDocument>;
-  private tokenSecret: string;
-  constructor(users: Model<UsersDocument>) {
+  private cacheService: CacheService;
+  private jwtService: IJwtService;
+
+  constructor(users: Model<UsersDocument>, cacheService: CacheService, jwtService: IJwtService) {
     this.users = users;
-    this.tokenSecret = process.env.TOKEN_KEY || '';
+    this.jwtService = jwtService;
+    this.cacheService = cacheService;
+    // this.tokenSecret = process.env.TOKEN_KEY || '';
   }
 
   protected async createUser(params: CreateUserDTO): Promise<UsersDocument | undefined> {
@@ -123,32 +127,9 @@ export class UsersService {
     }
   }
 
-  protected decodeToken(token: string): JwtPayload | null {
-    let valid = null;
-    try {
-      valid = jwt.verify(token, this.tokenSecret) as JwtPayload;
-    } catch (error) {
-      valid = null;
-    }
-    return valid;
-  }
-
-  protected generateToken(user: UsersDocument): string {
-    const token = jwt.sign(
-      { user_id: user.id, username: user.username },
-      this.tokenSecret,
-      { expiresIn: 60 * 60 }, // one hour
-    );
-    return token;
-  }
-
   protected async loginUser(data: loginDTO): Promise<UsersDocument | boolean> {
+    const { username, password } = data;
     try {
-      /* eslint-disable-next-line no-console */
-      // console.log('process.env.TOKEN_KEY', process.env.TOKEN_KEY);
-      /* eslint-disable-next-line no-console */
-      // console.log('process.env', process.env);
-      const { username, password } = data;
       const userFound = await this.users.findOne({
         username,
         password,
@@ -156,30 +137,23 @@ export class UsersService {
       if (!userFound) {
         return false;
       }
-      if (userFound.token) {
-        const token = this.decodeToken(userFound.token);
+
+      const existingToken = await this.cacheService.get('token', username);
+      if (existingToken) {
+        const token = this.jwtService.decodeToken(existingToken);
         if (token !== null) {
-          /* eslint-disable-next-line no-console */
-          console.log('DECODED', userFound.token);
+          userFound.token = existingToken;
           return userFound as UsersDocument;
         }
       }
-      const token = this.generateToken(userFound);
-      const updatedUser = await this.users.findOneAndUpdate(
-        { _id: userFound.id },
-        { $set: { token } },
-        { new: true },
-      );
-      return updatedUser as UsersDocument;
+      const token = this.jwtService.generateToken(userFound);
+      await this.cacheService.set('token', username, token);
+      userFound.token = token;
+      return userFound as UsersDocument;
     } catch (err: unknown) {
+      await this.cacheService.client.DEL(`token:${username}`);
       if (err instanceof Error) {
-        /* eslint-disable-next-line no-console */
-        console.log('name', err.name);
-        /* eslint-disable-next-line no-console */
-        console.log('message', err.message);
-        throw new ServiceError({
-          message: err.message,
-        });
+        throw new ServiceError({ ...err, code: 500 });
       }
       throw err;
     }
@@ -195,6 +169,7 @@ export class UsersService {
       if (!userFound) {
         return false;
       }
+      await this.cacheService.client.DEL(`token:${username}`);
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {
