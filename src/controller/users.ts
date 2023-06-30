@@ -13,6 +13,8 @@ import { IPagingRequest } from '../infra/interface/IPagingRequest';
 import { setFilterAndPaging } from '../utils/setFilterAndPaging';
 import { isEmail } from '../utils/isEmail';
 import { IJwtService } from '../service/JwtService';
+import { EUserStatus } from '../model/dto/EUserStatus';
+// import { IIdentity } from '../infra/interface/IIdentity';
 
 export class UsersController extends UsersService {
   // eslint-disable-next-line no-useless-constructor
@@ -20,7 +22,7 @@ export class UsersController extends UsersService {
     super(users, cacheService, jwtService);
   }
 
-  public async create(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async create(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
     try {
       const params: CreateUserDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
       const {
@@ -50,7 +52,7 @@ export class UsersController extends UsersService {
     }
   }
 
-  public async update(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async update(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
     // eslint-disable-next-line no-console
     // console.log(event, context);
     try {
@@ -76,7 +78,7 @@ export class UsersController extends UsersService {
       return Response.error(err as ServiceError);
     }
   }
-  public async find(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async find(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
     try {
       const [filter, paging] = setFilterAndPaging(event);
       const result = await this.findUsers({ ...filter }, paging as IPagingRequest);
@@ -86,7 +88,7 @@ export class UsersController extends UsersService {
     }
   }
 
-  public async findOne(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async findOne(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
     if (!event.pathParameters) {
       throw new Error('invalid parameters');
     }
@@ -105,7 +107,7 @@ export class UsersController extends UsersService {
     }
   }
 
-  public async deleteOne(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async deleteOne(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
     if (!event.pathParameters) {
       throw new Error('invalid parameters');
     }
@@ -118,6 +120,35 @@ export class UsersController extends UsersService {
     }
   }
 
+  public async register(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+    try {
+      const params: CreateUserDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+      const {
+        username, password,
+      } = params;
+      if (!(username && password)) {
+        throw new ServiceError({
+          code: 400,
+          message: 'username and password are mandatory',
+        });
+      }
+      if (!isEmail(username)) {
+        throw new ServiceError({
+          code: 400,
+          message: 'username must be a valid email address',
+        });
+      }
+      const result = await this.registerUser({
+        username,
+        password,
+        status: EUserStatus.active,
+        admin: false,
+      });
+      return Response.created(result);
+    } catch (err) {
+      return Response.error(err as ServiceError);
+    }
+  }
   public async login(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
     // eslint-disable-next-line no-console
     // console.log(event, context);
