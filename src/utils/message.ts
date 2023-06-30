@@ -7,6 +7,8 @@ import { ServiceError } from '../infra/ServiceError';
 enum StatusCode {
   success = 200,
   notFound = 404,
+  unauthorized = 401,
+  invalidRequest = 400,
   created = 201,
   unknow = 500,
 }
@@ -25,15 +27,12 @@ export class Response {
   public static error(err: ServiceError): ResponseVO {
     const { code = 500, message } = err;
     let statusCode: number;
-    if (code === 404) {
-      statusCode = code;
-    } else if (code === 400) {
+    if (code >= 400 && code <= 500) {
       statusCode = code;
     } else {
-      statusCode = 500;
+      statusCode = StatusCode.unknow;
     }
     const result = new Result(statusCode, code, message);
-    // console.log(result.bodyToString());
     return result.bodyToString();
   }
 }
