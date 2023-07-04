@@ -1,6 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
+import dotenv from 'dotenv';
+import path from 'path';
+
+export const ENV = process.env.NODE_ENV || '';
+
+const configFile = `config/.env.${ENV}`;
+const dConfig = {
+  path: path.resolve(process.cwd(), configFile),
+};
+dotenv.config(dConfig);
 
 export interface IJwtService {
   decodeToken(token: string): JwtPayload | null;
@@ -13,6 +23,8 @@ export class JwtService {
 
   constructor(secret?: string) {
     this.secret = secret || (process.env.TOKEN_KEY || '');
+    // eslint-disable-next-line no-console
+    console.log('XXXXX SECRET', this.secret);
     this.expiresIn = 60 * 60; // one hour ( 60 * 60 )
   }
 
