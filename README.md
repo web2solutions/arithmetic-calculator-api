@@ -7,7 +7,17 @@ See the [requirement's list](./TrueNorth_LoanPro_Coding_Challenge.pdf).
 
 `CircleCI status:`
 
-- main branch: [![CircleCI](https://dl.circleci.com/status-badge/img/gh/web2solutions/arithmetic-calculator-api/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/web2solutions/arithmetic-calculator-api/tree/main)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/web2solutions/arithmetic-calculator-api/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/web2solutions/arithmetic-calculator-api/tree/main)
+
+`Coverage`
+
+<a href="https://codecov.io/gh/web2solutions/arithmetic-calculator-api" > 
+ <img src="https://codecov.io/gh/web2solutions/arithmetic-calculator-api/branch/main/graph/badge.svg?token=MC5LUHIUGS"/> 
+ </a>
+
+[![codecov](https://codecov.io/gh/web2solutions/arithmetic-calculator-api/branch/main/graphs/sunburst.svg?token=MC5LUHIUGS)](https://codecov.io/web2solutions/arithmetic-calculator-api)
+
+
 
 ## Stack
 
