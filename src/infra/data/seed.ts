@@ -5,11 +5,11 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
 import {
-  users, operations, records,
+  users, operations, /** , records, */
 } from '../../model';
 import { initialUsersRecords } from '../../../tests/users.mock';
 import { initialOperationsRecords } from '../../../tests/operations.mock';
-import { initialRecordsRecords } from '../../../tests/records.mock';
+// import { initialRecordsRecords } from '../../../tests/records.mock';
 
 (async (): Promise<void> => {
   // console.log(dbConnection);
@@ -43,7 +43,7 @@ import { initialRecordsRecords } from '../../../tests/records.mock';
   }
   console.info(`<===========> ${collectionName} is done.`);
 
-  collectionName = 'Records';
+  /** collectionName = 'Records';
   console.info(`===========> Seeding - ${collectionName}`);
   console.log(`     >> deleting all records from ${collectionName} collection`);
   await records.deleteMany({});
@@ -56,7 +56,7 @@ import { initialRecordsRecords } from '../../../tests/records.mock';
       console.log(error);
     }
   }
-  console.info(`<===========> ${collectionName} is done.`);
+  console.info(`<===========> ${collectionName} is done.`); */
 
   process.exit(0);
 })();
