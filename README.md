@@ -23,15 +23,15 @@ See the [requirement's list](./TrueNorth_LoanPro_Coding_Challenge.pdf).
 
 * Node.js
 * TypeScript
-* MongoDB and Mongo Atlas
-* Redis and Redis Labs
+* MongoDB and Mongo Atlas as Database
+* Redis and Redis Labs as Cache layer
 * Jest
 * AWS lambda
 * Eslint
 * Docker
 * serverless and serverless-offline
 
-## Start development env using your current NodeJS installation:
+## Start development environment using your current NodeJS installation:
 
 You need to install the project first:
 
@@ -39,7 +39,7 @@ You need to install the project first:
 npm install
 ```
 
-Before running start the API, you must have Mongo and Redis installed first.
+Before running the API, you must have Mongo and Redis installed first.
 
 You can manually install them, or, you can use docker to install it by running:
 
@@ -47,10 +47,19 @@ You can manually install them, or, you can use docker to install it by running:
 npm run docker:compose:daemon
 ```
 
+### Testing using local Mongo and Redis services
 You probably want to run the current test suite implementation:
 
 ```bash
-npm test
+npm test:dev 
+```
+
+### Running the application on local environment
+
+`It is recommended to set the NODE_ENV env var value to 'dev'`
+
+```bash
+export NODE_ENV=dev
 ```
 
 An then you can start the dev environment by running:
@@ -59,7 +68,9 @@ An then you can start the dev environment by running:
 npm run local:start:dev
 ```
 
-## Start Mongo and Redis using Docker
+Reach the browser at http://localhost:3000
+
+## Managing Mongo and Redis using Docker
 
 ```bash
 npm run docker:compose:daemon
@@ -84,7 +95,26 @@ npm run docker:clean
 npm run docker:clean
 ```
 
-## Testing
+## Testing on CI
+
+When running on CI, the API connects to Mongo Atlas and Redis Labs. Please make sure you have the proper accounts. Setup the following env vars on CI platform:
+
+```
+  NODE_ENV=ci
+  
+  CODECOV_TOKEN=xxxxxxx # for codecov service
+  
+  TOKEN_KEY=mysecret # for jwt token
+
+  REDIS_HOST_LABS="redis-16050.c10.us-east-1-2.ec2.cloud.redislabs.com"
+  REDIS_PASSWORD_LABS="........"
+  REDIS_PORT_LABS=16050
+
+  MONGO_ATLAS_URL=mongodb+srv://xpertminds:fuzzy24k@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority
+  MONGO_DATABASE=arithmetic_calculator_api
+```
+
+Run the default `npm test command` to run the test suite for CI.
 
 ```bash
 npm test
