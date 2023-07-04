@@ -8,7 +8,7 @@ import { OperationsController } from './controller/operations';
 import { JwtService, IJwtService } from './service/JwtService';
 import { AuthService } from './service/AuthService';
 
-const dotenvPath = path.join(__dirname, '../', `config/.env.${process.env.NODE_ENV || 'ci'}`);
+const dotenvPath = path.join(__dirname, '../', `config/.env.${process.env.NODE_ENV}`);
 dotenv.config({
   path: dotenvPath,
 });

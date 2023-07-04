@@ -8,7 +8,7 @@ import { JwtService, IJwtService } from './service/JwtService';
 import { AuthService } from './service/AuthService';
 import { RandomService } from './service/RandomService';
 
-const dotenvPath = path.join(__dirname, '../', `config/.env.${process.env.NODE_ENV || 'ci'}`);
+const dotenvPath = path.join(__dirname, '../', `config/.env.${process.env.NODE_ENV}`);
 dotenv.config({
   path: dotenvPath,
 });

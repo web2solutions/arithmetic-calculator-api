@@ -4,7 +4,7 @@ import path from 'path';
 // eslint-disable-next-line no-console
 console.log('>>>>>>>> process.env.NODE_ENV', process.env.NODE_ENV);
 
-export const ENV = process.env.NODE_ENV || 'ci';
+export const ENV = process.env.NODE_ENV || '';
 
 export const configFile = `config/.env.${ENV}`;
 export const dConfig = {
