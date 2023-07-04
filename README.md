@@ -108,17 +108,15 @@ npm run docker:clean
 
 ## Testing on CI
 
-When running on CI, the API connects to Mongo Atlas and Redis Labs. 
+When running on CI, the API connects to Mongo Atlas and Redis Labs.
 
-
-Please make sure you have the proper accounts. 
+Please make sure you have the proper accounts.
 
 You can create for free, both accounts at https://redis.com/try-free/ and https://www.mongodb.com/cloud/atlas/register .
 
-
 Setup the following env vars on CI platform:
 
-```
+```bash
   NODE_ENV=ci
   
   CODECOV_TOKEN=xxxxxxx # for codecov service
@@ -141,25 +139,23 @@ npm test
 
 ## Deploy
 
-
 ### Environment Config
 
 By default the application will assume the following stage names and config files:
 
-- test
-- prod
-- stg
+* test
+* prod
+* stg
 
 Each one of those will required a related config file:
 
-- ./config/.env.test
-- ./config/.env.prod
-- ./config/.env.stg
+* ./config/.env.test
+* ./config/.env.prod
+* ./config/.env.stg
 
+Use the following template:
 
-With the following template:
-
-```
+```bash
 TOKEN_KEY=mysecret
 
 REDIS_HOST_LABS="redis-16050.c10.us-east-1-2.ec2.cloud.redislabs.com"
@@ -170,9 +166,7 @@ MONGO_ATLAS_URL=mongodb+srv://username:password@cluster0.mie7dav.mongodb.net/?re
 MONGO_DATABASE=arithmetic_calculator_api
 ```
 
-
-
-### Deploy on AWS, simply run:
+### Deploy on AWS, simply run
 
 ```bash
 $ npm run deploy
@@ -182,13 +176,11 @@ $ npm run deploy
 $ serverless deploy
 ```
 
-
-
 ## Usage
 
 send an HTTP request directly to the endpoint using a tool like curl
 
-```
+```bash
 curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/users
 ```
 
