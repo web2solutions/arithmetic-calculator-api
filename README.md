@@ -117,18 +117,18 @@ You can create for free, both accounts at https://redis.com/try-free/ and https:
 Setup the following env vars on CI platform:
 
 ```bash
-  NODE_ENV=ci
+  NODE_ENV="ci"
   
-  CODECOV_TOKEN=xxxxxxx # for codecov service
+  CODECOV_TOKEN="xxxxxxx" # for codecov service
   
-  TOKEN_KEY=mysecret # for jwt token
+  TOKEN_KEY="mysecret" # for jwt token
 
   REDIS_HOST_LABS="redis-16050.c10.us-east-1-2.ec2.cloud.redislabs.com"
   REDIS_PASSWORD_LABS="........"
   REDIS_PORT_LABS=16050
 
-  MONGO_ATLAS_URL=mongodb+srv://username:password@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority
-  MONGO_DATABASE=arithmetic_calculator_api
+  MONGO_ATLAS_URL="mongodb+srv://username:password@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority"
+  MONGO_DATABASE="arithmetic_calculator_api"
 ```
 
 Run the default `npm test command` to run the test suite for CI.
@@ -162,8 +162,8 @@ REDIS_HOST_LABS="redis-16050.c10.us-east-1-2.ec2.cloud.redislabs.com"
 REDIS_PASSWORD_LABS="password"
 REDIS_PORT_LABS=16050
 
-MONGO_ATLAS_URL=mongodb+srv://username:password@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority
-MONGO_DATABASE=arithmetic_calculator_api
+MONGO_ATLAS_URL="mongodb+srv://username:password@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority"
+MONGO_DATABASE="arithmetic_calculator_api"
 ```
 
 ### Deploy on AWS, simply run
