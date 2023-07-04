@@ -75,7 +75,7 @@ An then you can start the dev environment by running:
 npm run local:start:dev
 ```
 
-You can do login through the API by using curl:
+You can do login as admin user through the API by using curl:
 
 ```bash
 curl -X POST http://localhost:3000/dev/users/login -H "Content-Type: application/json" -d '{"username": "admin@admin.com", "password": "123456"}'  
