@@ -31,4 +31,6 @@ export const mongooseConnectionOptions = {
 };
 
 // eslint-disable-next-line no-console
-console.log({ mongooseConnectionURL, mongooseConnectionOptions, ENV });
+console.log({
+  mongooseConnectionURL, mongooseConnectionOptions, ENV, MONGO_ATLAS_URL: process.env.MONGO_ATLAS_URL,
+});
