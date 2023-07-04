@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 
 import {
-  users, operations, /** , records, */
+  users, operations, records,
 } from '../../model';
 import { initialUsersRecords } from '../../../tests/users.mock';
 import { initialOperationsRecords } from '../../../tests/operations.mock';
@@ -43,11 +43,11 @@ import { initialOperationsRecords } from '../../../tests/operations.mock';
   }
   console.info(`<===========> ${collectionName} is done.`);
 
-  /** collectionName = 'Records';
+  collectionName = 'Records';
   console.info(`===========> Seeding - ${collectionName}`);
   console.log(`     >> deleting all records from ${collectionName} collection`);
   await records.deleteMany({});
-  for (const record of initialRecordsRecords) {
+  /** for (const record of initialRecordsRecords) {
     try {
       console.log(`     >> creating ${record._id}`);
       await records.create(record);
