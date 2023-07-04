@@ -123,6 +123,35 @@ npm test
 ## Deploy
 
 
+### Environment Config
+
+By default the application will assume the following stage name and config files:
+
+- test
+- prod
+- stg
+
+Each one of those will required a related config file:
+
+- ./config/.env.test
+- ./config/.env.prod
+- ./config/.env.stg
+
+
+With the following template:
+
+```
+TOKEN_KEY=mysecret
+
+REDIS_HOST_LABS="redis-16050.c10.us-east-1-2.ec2.cloud.redislabs.com"
+REDIS_PASSWORD_LABS="password"
+REDIS_PORT_LABS=16050
+
+MONGO_ATLAS_URL=mongodb+srv://username:password@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority
+MONGO_DATABASE=arithmetic_calculator_api
+```
+
+
 
 ### Deploy on AWS, simply run:
 
