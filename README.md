@@ -23,8 +23,8 @@ See the [requirement's list](./TrueNorth_LoanPro_Coding_Challenge.pdf).
 
 * Node.js
 * TypeScript
-* MongoDB
-* Redis
+* MongoDB and Mongo Atlas
+* Redis and Redis Labs
 * Jest
 * AWS lambda
 * Eslint
