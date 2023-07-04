@@ -110,7 +110,7 @@ When running on CI, the API connects to Mongo Atlas and Redis Labs. Please make 
   REDIS_PASSWORD_LABS="........"
   REDIS_PORT_LABS=16050
 
-  MONGO_ATLAS_URL=mongodb+srv://xpertminds:fuzzy24k@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority
+  MONGO_ATLAS_URL=mongodb+srv://username:password@cluster0.mie7dav.mongodb.net/?retryWrites=true&w=majority
   MONGO_DATABASE=arithmetic_calculator_api
 ```
 
