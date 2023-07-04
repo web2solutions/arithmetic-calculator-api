@@ -31,7 +31,7 @@ See the [requirement's list](./TrueNorth_LoanPro_Coding_Challenge.pdf).
 * Docker
 * serverless and serverless-offline
 
-## Start development environment using your current NodeJS installation:
+## Preparing the development environment using your current NodeJS installation
 
 You need to install the project first:
 
@@ -48,6 +48,7 @@ npm run docker:compose:daemon
 ```
 
 ### Testing using local Mongo and Redis services
+
 You probably want to run the current test suite implementation:
 
 ```bash
@@ -62,13 +63,23 @@ npm test:dev
 export NODE_ENV=dev
 ```
 
+Add some users and operations to the database:
+
+```bash
+npm run data:seed:dev
+```
+
 An then you can start the dev environment by running:
 
 ```bash
 npm run local:start:dev
 ```
 
-Reach the browser at http://localhost:3000
+You can do login through the API by using curl:
+
+```bash
+curl -X POST http://localhost:3000/dev/users/login -H "Content-Type: application/json" -d '{"username": "admin@admin.com", "password": "123456"}'  
+```
 
 ## Managing Mongo and Redis using Docker
 
