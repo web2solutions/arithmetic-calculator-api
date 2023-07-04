@@ -13,9 +13,6 @@ export class ServiceError extends Error {
     this.message = data?.message ?? 'Unknown Service Error';
     this.name = data?.name ?? 'UnknownServiceError';
     this.at = data?.name ?? 'Service';
-    if (!this.stack) {
-      this.stack = `${this.at}`;
-    }
     this.code = data?.code ?? 500;
     this.originalError = data?.originalError ?? null;
     this.messageParams = data?.messageParams ?? null;

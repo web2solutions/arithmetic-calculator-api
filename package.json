@@ -27,7 +27,7 @@
     "build-deploy": "npm run build && npm run deploy",
     "pretest": "npm run lint",
     "test": "npm run test:ci",
-    "test:dev": "NODE_ENV=dev npx jest --config=jest.config.test.js --detectOpenHandles --verbose --watch",
+    "test:dev": "NODE_ENV=dev npx jest --config=jest.config.test.js --detectOpenHandles --verbose",
     "test:ci": "NODE_ENV=ci npx jest --config=jest.config.test.js --detectOpenHandles --verbose",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix"
