@@ -23,8 +23,6 @@ export class JwtService {
 
   constructor(secret?: string) {
     this.secret = secret || (process.env.TOKEN_KEY || '');
-    // eslint-disable-next-line no-console
-    console.log('XXXXX SECRET', this.secret);
     this.expiresIn = 60 * 60; // one hour ( 60 * 60 )
   }
 

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-export const ENV = process.env.NODE_ENV || 'ci';
+export const ENV = process.env.NODE_ENV || '';
 
 const configFile = `config/.env.${ENV}`;
 const dConfig = {

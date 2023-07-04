@@ -1,9 +1,6 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-// eslint-disable-next-line no-console
-console.log('>>>>>>>> process.env.NODE_ENV', process.env.NODE_ENV);
-
 export const ENV = process.env.NODE_ENV || '';
 
 export const configFile = `config/.env.${ENV}`;
@@ -29,8 +26,3 @@ export const mongooseConnectionOptions = {
   // useUnifiedTopology: true,
   // useNewUrlParser: true,
 };
-
-// eslint-disable-next-line no-console
-console.log({
-  mongooseConnectionURL, mongooseConnectionOptions, ENV, MONGO_ATLAS_URL: process.env.MONGO_ATLAS_URL,
-});
