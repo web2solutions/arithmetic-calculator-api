@@ -23,10 +23,6 @@ COPY src ./src
 COPY config ./config
 COPY tests ./tests
 
-
-# ENV DATABASE_URL="mongodb://localhost:27017/arithmetic-calculator-api"
-# ENV DB_URL="mongodb://localhost:27017/arithmetic-calculator-api"
-
 RUN node -v && rm -rf node_modules && rm -rf package-lock.json && rm -rf .build && npm install --ignore-scripts
 
 # COPY . .

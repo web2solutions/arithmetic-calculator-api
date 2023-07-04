@@ -80,12 +80,15 @@ export class OperationsService {
     }
   }
 
-  protected async findOneOperationById(_id: string): Promise<OperationsDocument | null> {
+  protected async findOneOperationById(_id: string, showOnlyActive: boolean): Promise<OperationsDocument | null> {
     try {
-      const record = await this.operations.findOne({
+      const filter: Record<string, string | number | boolean> = {
         _id,
-        status: 'active',
-      });
+      };
+      if (showOnlyActive) {
+        filter.status = 'active';
+      }
+      const record = await this.operations.findOne(filter);
       return record;
     } catch (err: unknown) {
       if (err instanceof Error) {

@@ -3,23 +3,16 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import dotenv from 'dotenv';
-import path from 'path';
 
 import {
-  dbConnection, users, operations, records,
+  users, operations, records,
 } from '../../model';
 import { initialUsersRecords } from '../../../tests/users.mock';
 import { initialOperationsRecords } from '../../../tests/operations.mock';
 import { initialRecordsRecords } from '../../../tests/records.mock';
 
-const dotenvPath = path.join(__dirname, '../../../', `config/.env.${process.env.NODE_ENV}`);
-dotenv.config({
-  path: dotenvPath,
-});
-
 (async (): Promise<void> => {
-  console.log(dbConnection);
+  // console.log(dbConnection);
   let collectionName = 'Users';
   console.info(`===========> Seeding - ${collectionName}`);
   console.log(`     >> deleting all records from ${collectionName} collection`);

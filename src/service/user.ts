@@ -170,7 +170,7 @@ export class UsersService {
       userFound.token = token;
       return userFound as UsersDocument;
     } catch (err: unknown) {
-      await this.cacheService.client.DEL(`token:${username}`);
+      await this.cacheService.del('token', username);
       if (err instanceof Error) {
         throw new ServiceError({ ...err, code: 500 });
       }
@@ -188,7 +188,7 @@ export class UsersService {
       if (!userFound) {
         return false;
       }
-      await this.cacheService.client.DEL(`token:${username}`);
+      await this.cacheService.del('token', username);
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {

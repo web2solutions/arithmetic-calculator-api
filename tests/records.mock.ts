@@ -1,9 +1,10 @@
+import { adminToken } from './users.mock';
+
 export const initialRecordsRecords = [{
   _id: '6498facfc0e0eca045a438d5',
   operation_id: '6498faadcfb5d4f39d4fb8a9',
   user_id: '6498faa6c8b7ab0fdd68cea5',
   amount: 2,
-  user_balance: 2,
   user_input_numbers: [
     2,
     2,
@@ -19,7 +20,6 @@ export const initialRecordsRecords = [{
   operation_id: '6498faadcfb5d4f39d4fb8a9',
   user_id: '6498faa6c8b7ab0fdd68cea5',
   amount: 2,
-  user_balance: 2,
   user_input_numbers: [
     2,
     2,
@@ -35,7 +35,6 @@ export const initialRecordsRecords = [{
   operation_id: '6498faadcfb5d4f39d4fb8a9',
   user_id: '6498faa6c8b7ab0fdd68cea5',
   amount: 2,
-  user_balance: 2,
   user_input_numbers: [
     2,
     2,
@@ -51,7 +50,6 @@ export const initialRecordsRecords = [{
   operation_id: '6498faadcfb5d4f39d4fb8a9',
   user_id: '6498faa6c8b7ab0fdd68cea5',
   amount: 2,
-  user_balance: 2,
   user_input_numbers: [
     2,
     2,
@@ -67,7 +65,6 @@ export const initialRecordsRecords = [{
   operation_id: '6498faadcfb5d4f39d4fb8a9',
   user_id: '6498faa6c8b7ab0fdd68cea5',
   amount: 2,
-  user_balance: 2,
   user_input_numbers: [
     2,
     2,
@@ -83,7 +80,6 @@ export const initialRecordsRecords = [{
   operation_id: '6498faadcfb5d4f39d4fb8a9',
   user_id: '6498faa6c8b7ab0fdd68cea5',
   amount: 2,
-  user_balance: 2,
   user_input_numbers: [
     2,
     2,
@@ -99,7 +95,6 @@ export const initialRecordsRecords = [{
   operation_id: '6498faadcfb5d4f39d4fb8a9',
   user_id: '6498faa6c8b7ab0fdd68cea5',
   amount: 2,
-  user_balance: 2,
   user_input_numbers: [
     2,
     2,
@@ -185,7 +180,7 @@ export const eventCreateRecord = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -258,7 +253,7 @@ export const eventUpdateRecordAmount = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -334,7 +329,7 @@ export const eventUpdateRecordRecordname = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -410,7 +405,7 @@ export const eventUpdateExistingRecordRecordname = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -482,7 +477,7 @@ export const eventFindRecord = {
     Host: 'localhost:3000',
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'GET',
   isBase64Encoded: false,

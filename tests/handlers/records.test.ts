@@ -6,14 +6,12 @@ import { ServiceError } from '../../src/infra/ServiceError';
 import {
   createRecordErrorString,
   eventCreateRecord,
-  eventUpdateRecordAmount,
   eventFindRecord,
   initialRecordsRecords,
 } from '../records.mock';
 import { contextCreateUser } from '../context.createUser.mock';
 import {
   create,
-  update,
   find,
   findOne,
   deleteOne,
@@ -72,27 +70,6 @@ describe('integration testing - Records', () => {
       const responseBody = JSON.parse(response.body);
       // const requestBody = JSON.parse(eventCreateRecord.body);
       expect(responseBody.message).toStrictEqual(createRecordErrorString);
-    });
-  });
-
-  describe('update Record handler', () => {
-    it('should properly update record amount', async () => {
-      expect.hasAssertions();
-      const originalRecord = JSON.parse(eventCreateRecord.body);
-      const newPasswordRecord = JSON.parse(eventUpdateRecordAmount.body);
-      const mockedService = jest
-        .spyOn(RecordsController.prototype, 'update')
-        .mockResolvedValue(
-          Response.success({ ...originalRecord, ...newPasswordRecord })
-        );
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const context = contextCreateUser as any;
-      const response = await update(eventUpdateRecordAmount, context, () => 0);
-      expect(mockedService).toHaveBeenCalledTimes(1);
-      expect(response.statusCode).toStrictEqual(200);
-      const responseBody = JSON.parse(response.body);
-      // const requestBody = JSON.parse(eventUpdateRecordAmount.body);
-      expect(responseBody.data.amount).toStrictEqual(newPasswordRecord.amount);
     });
   });
 

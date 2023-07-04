@@ -22,10 +22,9 @@ const recordsSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     default: (): Types.ObjectId => new Types.ObjectId(),
   },
-  operation_id: { type: String, required: true }, // { type: mongoose.Schema.Types.ObjectId, ref: 'operations' }
-  user_id: { type: String, required: true }, // // { type: mongoose.Schema.Types.ObjectId, ref: 'users' }
+  operation_id: { type: mongoose.Schema.Types.ObjectId, ref: 'operations' }, // { type: mongoose.Schema.Types.ObjectId, ref: 'operations' }
+  user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'users' }, // // { type: mongoose.Schema.Types.ObjectId, ref: 'users' }
   amount: { type: Number, required: true },
-  user_balance: { type: Number, required: true },
   user_input_numbers: { type: Array, required: true },
   operation_response: {
     type: String, required: true, index: true,

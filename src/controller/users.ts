@@ -10,11 +10,12 @@ import { HTTPNotFoundError } from '../infra/protocols/HTTP/error/HTTPNotFoundErr
 import { UsersDocument } from '../model/users';
 import { ServiceError } from '../infra/ServiceError';
 import { IPagingRequest } from '../infra/interface/IPagingRequest';
-import { setFilterAndPaging } from '../utils/setFilterAndPaging';
+import { setFilter } from '../utils/setFilter';
+import { setPaging } from '../utils/setPaging';
 import { isEmail } from '../utils/isEmail';
 import { IJwtService } from '../service/JwtService';
 import { EUserStatus } from '../model/dto/EUserStatus';
-// import { IIdentity } from '../infra/interface/IIdentity';
+import { IIdentity } from '../infra/interface/IIdentity';
 
 export class UsersController extends UsersService {
   // eslint-disable-next-line no-useless-constructor
@@ -22,11 +23,17 @@ export class UsersController extends UsersService {
     super(users, cacheService, jwtService);
   }
 
-  public async create(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
+  public async create(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
       const params: CreateUserDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
+      if (!identity.user.admin) {
+        throw new ServiceError({
+          code: 403,
+          message: 'only admins can create users',
+        });
+      }
       const {
-        username, password, status, admin,
+        username, password, status, admin, balance,
       } = params;
       if (!(username && password)) {
         throw new ServiceError({
@@ -45,6 +52,7 @@ export class UsersController extends UsersService {
         password,
         status,
         admin,
+        balance,
       });
       return Response.created(result);
     } catch (err) {
@@ -52,9 +60,7 @@ export class UsersController extends UsersService {
     }
   }
 
-  public async update(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
-    // eslint-disable-next-line no-console
-    // console.log(event, context);
+  public async update(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
       if (!event.pathParameters) {
         throw new Error('invalid parameters');
@@ -62,6 +68,14 @@ export class UsersController extends UsersService {
       const id: string = event.pathParameters.id || '';
       if (id === '') {
         throw new Error('invalid id');
+      }
+      if (!identity.user.admin) {
+        if (identity.user.user_id !== id) {
+          throw new ServiceError({
+            code: 403,
+            message: 'non admin user can only edit their own user data',
+          });
+        }
       }
       const body: UpdateUserDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
       if (body.username) {
@@ -78,25 +92,40 @@ export class UsersController extends UsersService {
       return Response.error(err as ServiceError);
     }
   }
-  public async find(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
+  public async find(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
-      const [filter, paging] = setFilterAndPaging(event);
-      const result = await this.findUsers({ ...filter }, paging as IPagingRequest);
+      const filters = setFilter(event);
+      const paging = setPaging(event);
+
+      if (!identity.user.admin) {
+        filters.status = 'active';
+        // eslint-disable-next-line no-underscore-dangle
+        filters._id = identity.user.user_id;
+      }
+      const result = await this.findUsers({ ...filters }, paging as IPagingRequest);
       return Response.success(result);
     } catch (err) {
       return Response.error(err as ServiceError);
     }
   }
 
-  public async findOne(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
-    if (!event.pathParameters) {
-      throw new Error('invalid parameters');
-    }
-    const id: string = event.pathParameters.id || '';
-    if (id === '') {
-      throw new Error('invalid id');
-    }
+  public async findOne(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
+      if (!event.pathParameters) {
+        throw new Error('invalid parameters');
+      }
+      const id: string = event.pathParameters.id || '';
+      if (id === '') {
+        throw new Error('invalid id');
+      }
+      if (!identity.user.admin) {
+        if (identity.user.user_id !== id) {
+          throw new ServiceError({
+            code: 403,
+            message: 'non admin user can only find their own user data',
+          });
+        }
+      }
       const result = await this.findOneUserById(id);
       if (result === null) {
         throw new HTTPNotFoundError();
@@ -107,12 +136,20 @@ export class UsersController extends UsersService {
     }
   }
 
-  public async deleteOne(event: APIGatewayProxyEvent/** , identity: IIdentity */): Promise<APIGatewayProxyResult> {
-    if (!event.pathParameters) {
-      throw new Error('invalid parameters');
-    }
-    const id: string = event.pathParameters.id || '';
+  public async deleteOne(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
+      if (!event.pathParameters) {
+        throw new Error('invalid parameters');
+      }
+      const id: string = event.pathParameters.id || '';
+      if (!identity.user.admin) {
+        if (identity.user.user_id !== id) {
+          throw new ServiceError({
+            code: 403,
+            message: 'non admin user can only find their own user data',
+          });
+        }
+      }
       const result = await this.deleteOneUserById(id);
       return Response.success(result);
     } catch (err) {
@@ -150,8 +187,6 @@ export class UsersController extends UsersService {
     }
   }
   public async login(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-    // eslint-disable-next-line no-console
-    // console.log(event, context);
     try {
       const params: loginDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
       const { username, password } = params;
@@ -159,6 +194,12 @@ export class UsersController extends UsersService {
         throw new ServiceError({
           code: 400,
           message: 'username and password are mandatory',
+        });
+      }
+      if (!isEmail(username)) {
+        throw new ServiceError({
+          code: 400,
+          message: 'username must be a valid email address',
         });
       }
       const result = await this.loginUser({
@@ -178,8 +219,6 @@ export class UsersController extends UsersService {
   }
 
   public async logout(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-    // eslint-disable-next-line no-console
-    // console.log(event, context);
     try {
       const params = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
       const { username, token } = params;

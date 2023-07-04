@@ -1,52 +1,69 @@
+import dotenv from 'dotenv';
+import path from 'path';
+import { JwtService, IJwtService } from '../src/service/JwtService';
+
+export const ENV = process.env.NODE_ENV || '';
+
+export const configFile = `config/.env.${ENV}`;
+export const dConfig = {
+  path: path.resolve(process.cwd(), configFile),
+};
+dotenv.config(dConfig);
+
+const jwtService: IJwtService = new JwtService(process.env.TOKEN_KEY);
+
 export const initialUsersRecords = [{
   _id: '6498faa6c8b7ab0fdd68cea5',
-  username: 'web2solucoes10@gmail.com',
-  password: '123',
+  username: 'admin@admin.com',
+  password: '123456',
   status: 'active',
+  admin: true,
   __v: 0,
   id: '6498faa6c8b7ab0fdd68cea5',
 },
 {
   _id: '6498fba26c94b7f12a4323d0',
-  username: 'web2solucoes0@gmail.com',
-  password: '123',
+  username: 'user1@user.com',
+  password: '123456',
   status: 'active',
   __v: 0,
   id: '6498fba26c94b7f12a4323d0',
 },
 {
   _id: '6498fba76c94b7f12a4323d6',
-  username: 'web2solucoes20@gmail.com',
-  password: '123',
+  username: 'user20@user.com',
+  password: '123456',
   status: 'active',
   __v: 0,
   id: '6498fba76c94b7f12a4323d6',
 },
 {
   _id: '6498fbab6c94b7f12a4323d8',
-  username: 'web2solucoes30@gmail.com',
-  password: '123',
+  username: 'user30@user.com',
+  password: '123456',
   status: 'active',
   __v: 0,
   id: '6498fbab6c94b7f12a4323d8',
 },
 {
   _id: '6498fbb16c94b7f12a4323da',
-  username: 'web2solucoes40@gmail.com',
-  password: '123',
+  username: 'user40@user.com',
+  password: '123456',
   status: 'active',
   __v: 0,
   id: '6498fbb16c94b7f12a4323da',
 }];
 
-export const createUsername = `web2solucoes${Math.random()}@gmail.com`;
-export const createUsername2 = `web2solucoes${Math.random()}@gmail.com`;
-export const createUsername3 = `web2solucoes${Math.random()}@gmail.com`;
+export const adminToken = jwtService.generateToken(initialUsersRecords[0]);
+
+export const createUsername = `user${Math.random()}@user.com`;
+export const createUsername2 = `user${Math.random()}@user.com`;
+export const createUsername3 = `user${Math.random()}@user.com`;
 
 export const createUser = {
   _id: '6498fba26c94b7f12a4323d0',
   username: createUsername,
-  password: '123',
+  password: '123456',
   status: 'active',
   __v: 0,
   id: '6498fba26c94b7f12a4323d0',
@@ -90,7 +107,7 @@ export const eventCreateUser = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -150,6 +167,37 @@ export const eventCreateUser = {
   stageVariables: null,
 };
 
+export const eventLoginAdmin = {
+  ...eventCreateUser,
+  body: JSON.stringify({
+    username: 'admin@admin.com',
+    password: '123456',
+  }),
+};
+
+export const eventLogoutAdmin = {
+  ...eventCreateUser,
+  body: JSON.stringify({
+    username: 'admin@admin.com',
+    token: adminToken,
+  }),
+};
+
+export const loginResponse = {
+  code: 0,
+  message: 'success',
+  data: {
+    _id: '6498faa6c8b7ab0fdd68cea5',
+    username: 'admin@admin.com',
+    status: 'active',
+    token: adminToken,
+    balance: 100,
+    admin: true,
+    __v: 0,
+    id: '6498faa6c8b7ab0fdd68cea5',
+  },
+};
+
 export const eventUpdateUserPassword = {
   body: JSON.stringify({
     password: 'james',
@@ -163,7 +211,7 @@ export const eventUpdateUserPassword = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -239,7 +287,7 @@ export const eventUpdateUserUsername = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -315,7 +363,7 @@ export const eventUpdateExistingUserUsername = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -387,7 +435,7 @@ export const eventFindUser = {
     Host: 'localhost:3000',
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'GET',
   isBase64Encoded: false,

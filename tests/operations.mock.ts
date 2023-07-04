@@ -1,18 +1,22 @@
+import { adminToken } from './users.mock';
+
 export const initialOperationsRecords = [{
-  _id: '6498faadcfb5d4f39d4fb8a9',
-  cost: 2,
-  type: 'addition',
-  status: 'active',
-  __v: 0,
-  id: '6498faadcfb5d4f39d4fb8a9',
+  _id: '649f040d17b642d315192cf9', cost: 2, type: 'addition', status: 'active', id: '649f040d17b642d315192cf9',
 },
 {
-  _id: '6498ff4529e6bae1f50ce316',
-  cost: 2,
-  type: 'subtraction',
-  status: 'active',
-  __v: 0,
-  id: '6498ff4529e6bae1f50ce316',
+  _id: '649f043e17b642d315192cff', cost: 2, type: 'subtraction', status: 'active', id: '649f043e17b642d315192cff',
+},
+{
+  _id: '649f044b17b642d315192d01', cost: 3, type: 'multiplication', status: 'active', id: '649f044b17b642d315192d01',
+},
+{
+  _id: '649f046617b642d315192d03', cost: 3, type: 'division', status: 'active', id: '649f046617b642d315192d03',
+},
+{
+  _id: '649f047917b642d315192d05', cost: 10, type: 'square_root', status: 'active', id: '649f047917b642d315192d05',
+},
+{
+  _id: '649f048b17b642d315192d07', cost: 20, type: 'random_string', status: 'active', id: '649f048b17b642d315192d07',
 }];
 
 export const createOperationType = 'division';
@@ -66,7 +70,7 @@ export const eventCreateOperation = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -139,7 +143,7 @@ export const eventUpdateOperationCost = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -215,7 +219,7 @@ export const eventUpdateOperationOperationname = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -291,7 +295,7 @@ export const eventUpdateExistingOperationOperationname = {
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
     'Content-Length': '93',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'POST',
   isBase64Encoded: false,
@@ -363,7 +367,7 @@ export const eventFindOperation = {
     Host: 'localhost:3000',
     'Accept-Encoding': 'gzip, deflate, br',
     Connection: 'keep-alive',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjQ5ZTQ5YzI1YTNiY2ZlOTkyMGQwMmU1IiwidXNlcm5hbWUiOiJ3ZWIyc29sdWNvZXNAZ21haWwuY29tIiwiaWF0IjoxNjg4MTYzNDg3LCJleHAiOjE2ODgxNjcwODd9._wB4xETbN-d8iUELQyEW-SBW3WVRmsaVNeaaZTTjj5E',
+    Authorization: `Bearer ${adminToken}`,
   },
   httpMethod: 'GET',
   isBase64Encoded: false,

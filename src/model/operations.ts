@@ -5,7 +5,7 @@ enum EStatus {
   inactive = 'inactive',
 }
 
-enum EOperationType {
+export enum EOperationType {
   addition = 'addition',
   subtraction = 'subtraction',
   multiplication = 'multiplication',

@@ -7,8 +7,9 @@ import { UpdateOperationDTO } from '../model/dto/updateOperationDTO';
 import { HTTPNotFoundError } from '../infra/protocols/HTTP/error/HTTPNotFoundError';
 import { OperationsDocument } from '../model/operations';
 import { ServiceError } from '../infra/ServiceError';
-import { IPagingRequest } from '../infra/interface/IPagingRequest';
-import { setFilterAndPaging } from '../utils/setFilterAndPaging';
+import { setFilter } from '../utils/setFilter';
+import { setPaging } from '../utils/setPaging';
+import { IPagingRequest, IIdentity } from '../infra/interface';
 
 export class OperationsController extends OperationsService {
   // eslint-disable-next-line no-useless-constructor
@@ -16,8 +17,14 @@ export class OperationsController extends OperationsService {
     super(operations);
   }
 
-  public async create(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async create(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
+      if (!identity.user.admin) {
+        throw new ServiceError({
+          code: 403,
+          message: 'only admins can create operations',
+        });
+      }
       const params: CreateOperationDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
       const result = await this.createOperation({
         type: params.type,
@@ -29,8 +36,14 @@ export class OperationsController extends OperationsService {
     }
   }
 
-  public async update(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async update(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
+      if (!identity.user.admin) {
+        throw new ServiceError({
+          code: 403,
+          message: 'only admins can update operations',
+        });
+      }
       if (!event.pathParameters) {
         throw new Error('invalid parameters');
       }
@@ -46,26 +59,30 @@ export class OperationsController extends OperationsService {
     }
   }
 
-  public async find(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
+  public async find(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
-      const [filter, paging] = setFilterAndPaging(event);
-      const result = await this.findOperations({ ...filter }, paging as IPagingRequest);
+      const filters = setFilter(event);
+      const paging = setPaging(event);
+      if (!identity.user.admin) {
+        filters.status = 'active';
+      }
+      const result = await this.findOperations({ ...filters }, paging as IPagingRequest);
       return Response.success(result);
     } catch (err) {
       return Response.error(err as ServiceError);
     }
   }
 
-  public async findOne(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-    if (!event.pathParameters) {
-      throw new Error('invalid parameters');
-    }
-    const id: string = event.pathParameters.id || '';
-    if (id === '') {
-      throw new Error('invalid id');
-    }
+  public async findOne(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
-      const result = await this.findOneOperationById(id);
+      if (!event.pathParameters) {
+        throw new Error('invalid parameters');
+      }
+      const id: string = event.pathParameters.id || '';
+      if (id === '') {
+        throw new Error('invalid id');
+      }
+      const result = await this.findOneOperationById(id, !identity.user.admin);
       if (result === null) {
         throw new HTTPNotFoundError();
       }
@@ -75,12 +92,18 @@ export class OperationsController extends OperationsService {
     }
   }
 
-  public async deleteOne(event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> {
-    if (!event.pathParameters) {
-      throw new Error('invalid parameters');
-    }
-    const id: string = event.pathParameters.id || '';
+  public async deleteOne(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {
     try {
+      if (!identity.user.admin) {
+        throw new ServiceError({
+          code: 403,
+          message: 'only admins can delete operations',
+        });
+      }
+      if (!event.pathParameters) {
+        throw new Error('invalid parameters');
+      }
+      const id: string = event.pathParameters.id || '';
       const result = await this.deleteOneOperationById(id);
       return Response.success(result);
     } catch (err) {

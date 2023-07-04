@@ -20,22 +20,24 @@ custom:
   #  watch:
   #    pattern: ['src/**/*.ts'] # match only typescript files in src directory
   #    ignore: ['build/**/*']
-  dotenv:
-    # default: project root
-    path: config/.env.dev
+  #dotenv:
+  #  # default: project root
+  #  path: config/.env.test
+  #  NODE_ENV: test #${env:NODE_ENV}
   serverless-offline:
     httpPort: 3000
     host: 0.0.0.0
 
 plugins:
   - serverless-plugin-typescript
-  - serverless-dotenv-plugin
+  #- serverless-dotenv-plugin
   - serverless-offline    
 
 provider:
   name: aws
   runtime: nodejs16.x
-  # environment: ${file(configs.js)}
+  environment: 
+    NODE_ENV: ${env:NODE_ENV} #${env:NODE_ENV} ${file(configs.js)}
   region: us-east-2
   memorySize: 128
   apiGateway:

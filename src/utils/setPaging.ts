@@ -2,8 +2,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { IPagingRequest } from '../infra/interface/IPagingRequest';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const setFilterAndPaging = (event: APIGatewayProxyEvent): Array<Record<any, any> | IPagingRequest> => {
-  let filter: Record<string, string|number> = {};
+export const setPaging = (event: APIGatewayProxyEvent): IPagingRequest => {
   const paging: IPagingRequest = {
     page: 1,
     size: 20,
@@ -18,8 +17,5 @@ export const setFilterAndPaging = (event: APIGatewayProxyEvent): Array<Record<an
       paging.size = +event.queryStringParameters.size;
     }
   }
-  if (event.queryStringParameters?.filter) {
-    filter = { ...(JSON.parse(event.queryStringParameters.filter)) };
-  }
-  return [filter, paging];
+  return paging;
 };

@@ -9,20 +9,20 @@ export interface IJwtService {
 
 export class JwtService {
   private secret: string;
-  private expiresIn: number;
+  public expiresIn: number;
 
-  constructor(secret = '') {
-    this.secret = secret;
-    this.expiresIn = 60 * 60; // one hour
+  constructor(secret?: string) {
+    this.secret = secret || (process.env.TOKEN_KEY || '');
+    this.expiresIn = 60 * 60; // one hour ( 60 * 60 )
   }
 
   public decodeToken(token: string): JwtPayload | null {
+    // eslint-disable-next-line no-console
+    // console.log('+++++++  decodeToken() SECRET', this.secret);
     let valid = null;
     try {
-      valid = jwt.verify(token, this.secret) as JwtPayload;
+      valid = jwt.verify(token, this.secret, { }) as JwtPayload;
     } catch (error) {
-      // eslint-disable-next-line no-console
-      // console.log(error);
       valid = null;
     }
     return valid;
@@ -30,7 +30,7 @@ export class JwtService {
 
   public generateToken(user: Record<any, any>): string {
     const token = jwt.sign(
-      { user_id: user.id, username: user.username },
+      { user_id: user.id, username: user.username, admin: user.admin },
       this.secret,
       { expiresIn: this.expiresIn },
     );

@@ -12,9 +12,9 @@ services:
     depends_on:
       - mongodb
       - cache
-    env_file: config/.env.dev
+    env_file: config/.env.docker
     environment:
-      - NODE_ENV=dev
+      - NODE_ENV=docker
       - REDIS_HOST=cache
       - REDIS_PORT=6379
       - REDIS_PASSWORD=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
