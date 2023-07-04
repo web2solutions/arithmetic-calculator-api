@@ -111,7 +111,9 @@ npm run docker:clean
 When running on CI, the API connects to Mongo Atlas and Redis Labs. 
 
 
-Please make sure you have the proper accounts. You can create free both accounts at https://redis.com/try-free/ and https://www.mongodb.com/cloud/atlas/register .
+Please make sure you have the proper accounts. 
+
+You can create free both accounts at https://redis.com/try-free/ and https://www.mongodb.com/cloud/atlas/register .
 
 
 Setup the following env vars on CI platform:
