@@ -4,7 +4,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import path from 'path';
 
-export const ENV = process.env.NODE_ENV || '';
+export const ENV = process.env.NODE_ENV || 'ci';
 
 const configFile = `config/.env.${ENV}`;
 const dConfig = {

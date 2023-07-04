@@ -8,13 +8,12 @@ import { JwtService, IJwtService } from './service/JwtService';
 import { AuthService } from './service/AuthService';
 import { RandomService } from './service/RandomService';
 
-const dotenvPath = path.join(__dirname, '../', `config/.env.${process.env.NODE_ENV}`);
+const dotenvPath = path.join(__dirname, '../', `config/.env.${process.env.NODE_ENV || 'ci'}`);
 dotenv.config({
   path: dotenvPath,
 });
 
-const secret = process.env.TOKEN_KEY;
-const jwtService: IJwtService = new JwtService(secret);
+const jwtService: IJwtService = new JwtService();
 const recordsController = new RecordsController(records, operations, users, RandomService);
 
 export const create: Handler = async (event: APIGatewayProxyEvent) => {
