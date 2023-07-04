@@ -29,3 +29,6 @@ export const mongooseConnectionOptions = {
   // useUnifiedTopology: true,
   // useNewUrlParser: true,
 };
+
+// eslint-disable-next-line no-console
+console.log({ mongooseConnectionURL, mongooseConnectionOptions, ENV });
