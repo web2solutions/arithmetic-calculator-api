@@ -2,6 +2,11 @@
 node_modules
 jspm_packages
 
+config/.env.pro
+config/.env.stg
+config/.env.test
+.circleci/config_.yml
+
 # Serverless directories
 .serverless
 
