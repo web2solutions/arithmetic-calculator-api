@@ -19,6 +19,11 @@ export class Result {
   public bodyToString(): APIGatewayProxyResult {
     return {
       statusCode: this.statusCode,
+      headers: {
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': '*',
+      },
       body: JSON.stringify({
         code: this.code,
         message: this.message,
