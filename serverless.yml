@@ -12,11 +12,11 @@ custom:
   esbuild:
     bundle: true
     target: node16
-    minify: true
+    minify: false
     sourcemap: true
     keepNames: true
-    #plugins: ./esbuild-plugins.js
-    #exclude: '*'
+    plugins: ./esbuild-plugins.js
+    exclude: '*'
     #outDir: .build
     watch:
       pattern: ['src/**/*.ts'] # match only typescript files in src directory

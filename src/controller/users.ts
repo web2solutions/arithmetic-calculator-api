@@ -16,11 +16,12 @@ import { isEmail } from '../utils/isEmail';
 import { IJwtService } from '../service/JwtService';
 import { EUserStatus } from '../model/dto/EUserStatus';
 import { IIdentity } from '../infra/interface/IIdentity';
+import { ICryptService } from '../service/CryptService';
 
 export class UsersController extends UsersService {
   // eslint-disable-next-line no-useless-constructor
-  constructor(users: Model<UsersDocument>, cacheService: CacheService, jwtService: IJwtService) {
-    super(users, cacheService, jwtService);
+  constructor(users: Model<UsersDocument>, cacheService: CacheService, jwtService: IJwtService, cryptService: ICryptService) {
+    super(users, cacheService, jwtService, cryptService);
   }
 
   public async create(event: APIGatewayProxyEvent, identity: IIdentity): Promise<APIGatewayProxyResult> {

@@ -24,6 +24,7 @@ const usersSchema = new mongoose.Schema({
     type: String, index: true, unique: true, required: true,
   },
   password: { type: String, required: true, select: false },
+  salt: { type: String, required: true, select: false },
   status: { type: String, default: EUserStatus.inactive },
   token: { type: String, default: '' },
   balance: { type: Number, default: 0 },

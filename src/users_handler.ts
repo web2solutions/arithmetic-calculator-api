@@ -9,6 +9,7 @@ import { UsersController } from './controller/users';
 import { CacheService } from './service/CacheService';
 import { JwtService, IJwtService } from './service/JwtService';
 import { AuthService } from './service/AuthService';
+import { CryptService, ICryptService } from './service/CryptService';
 
 const dotenvPath = path.join(__dirname, '../', `config/.env.${process.env.NODE_ENV}`);
 dotenv.config({
@@ -17,7 +18,8 @@ dotenv.config({
 
 const jwtService: IJwtService = new JwtService();
 const cacheService = new CacheService();
-const usersController = new UsersController(users, cacheService, jwtService);
+const cryptService: ICryptService = new CryptService();
+const usersController = new UsersController(users, cacheService, jwtService, cryptService);
 
 export const create: Handler = async (event: APIGatewayProxyEvent) => {
   const authService = new AuthService(jwtService);
