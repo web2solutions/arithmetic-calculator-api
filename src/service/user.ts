@@ -171,6 +171,9 @@ export class UsersService {
       if (!userFound) {
         return false;
       }
+      if (userFound.status === 'inactive') {
+        return false;
+      }
       const passwordMatch = await this.cryptService.compare(password, userFound.password);
       if (!passwordMatch) {
         return false;
