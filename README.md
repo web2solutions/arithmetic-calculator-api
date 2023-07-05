@@ -183,7 +183,7 @@ $ serverless deploy
 send an HTTP request directly to the endpoint using a tool like curl
 
 ```bash
-curl https://xxxxxxxxx.execute-api.us-east-1.amazonaws.com/dev/users
+curl https://je6x0x8fa6.execute-api.us-east-2.amazonaws.com/test/users
 ```
 
 ## Scaling

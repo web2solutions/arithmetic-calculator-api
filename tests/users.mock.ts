@@ -15,7 +15,8 @@ const jwtService: IJwtService = new JwtService(process.env.TOKEN_KEY);
 export const initialUsersRecords = [{
   _id: '6498faa6c8b7ab0fdd68cea5',
   username: 'admin@admin.com',
-  password: '123456',
+  password: '$2b$10$ARghP7JfN2CNZghEdrTc4.7RW/JctuuAFWphm2rTZDubcvPOFnDvK',
+  salt: '$2b$10$ARghP7JfN2CNZghEdrTc4.',
   status: 'active',
   admin: true,
   __v: 0,
@@ -24,7 +25,8 @@ export const initialUsersRecords = [{
 {
   _id: '6498fba26c94b7f12a4323d0',
   username: 'user1@user.com',
-  password: '123456',
+  password: '$2b$10$ARghP7JfN2CNZghEdrTc4.7RW/JctuuAFWphm2rTZDubcvPOFnDvK',
+  salt: '$2b$10$ARghP7JfN2CNZghEdrTc4.',
   status: 'active',
   __v: 0,
   id: '6498fba26c94b7f12a4323d0',
@@ -32,7 +34,8 @@ export const initialUsersRecords = [{
 {
   _id: '6498fba76c94b7f12a4323d6',
   username: 'user20@user.com',
-  password: '123456',
+  password: '$2b$10$ARghP7JfN2CNZghEdrTc4.7RW/JctuuAFWphm2rTZDubcvPOFnDvK',
+  salt: '$2b$10$ARghP7JfN2CNZghEdrTc4.',
   status: 'active',
   __v: 0,
   id: '6498fba76c94b7f12a4323d6',
@@ -40,7 +43,8 @@ export const initialUsersRecords = [{
 {
   _id: '6498fbab6c94b7f12a4323d8',
   username: 'user30@user.com',
-  password: '123456',
+  password: '$2b$10$ARghP7JfN2CNZghEdrTc4.7RW/JctuuAFWphm2rTZDubcvPOFnDvK',
+  salt: '$2b$10$ARghP7JfN2CNZghEdrTc4.',
   status: 'active',
   __v: 0,
   id: '6498fbab6c94b7f12a4323d8',
@@ -48,7 +52,8 @@ export const initialUsersRecords = [{
 {
   _id: '6498fbb16c94b7f12a4323da',
   username: 'user40@user.com',
-  password: '123456',
+  password: '$2b$10$ARghP7JfN2CNZghEdrTc4.7RW/JctuuAFWphm2rTZDubcvPOFnDvK',
+  salt: '$2b$10$ARghP7JfN2CNZghEdrTc4.',
   status: 'active',
   __v: 0,
   id: '6498fbb16c94b7f12a4323da',
@@ -63,7 +68,8 @@ export const createUsername3 = `user${Math.random()}@user.com`;
 export const createUser = {
   _id: '6498fba26c94b7f12a4323d0',
   username: createUsername,
-  password: '123456',
+  password: '$2b$10$ARghP7JfN2CNZghEdrTc4.7RW/JctuuAFWphm2rTZDubcvPOFnDvK',
+  salt: '$2b$10$ARghP7JfN2CNZghEdrTc4.',
   status: 'active',
   __v: 0,
   id: '6498fba26c94b7f12a4323d0',
@@ -171,7 +177,8 @@ export const eventLoginAdmin = {
   ...eventCreateUser,
   body: JSON.stringify({
     username: 'admin@admin.com',
-    password: '123456',
+    password: '$2b$10$ARghP7JfN2CNZghEdrTc4.7RW/JctuuAFWphm2rTZDubcvPOFnDvK',
+    salt: '$2b$10$ARghP7JfN2CNZghEdrTc4.',
   }),
 };
 
