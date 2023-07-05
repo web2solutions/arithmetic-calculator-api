@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import path from 'path';
 

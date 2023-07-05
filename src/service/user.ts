@@ -22,7 +22,6 @@ export class UsersService {
     this.jwtService = jwtService;
     this.cacheService = cacheService;
     this.cryptService = cryptService;
-    // this.tokenSecret = process.env.TOKEN_KEY || '';
   }
 
   protected async createUser(params: CreateUserDTO): Promise<UsersDocument | undefined> {
@@ -169,12 +168,9 @@ export class UsersService {
         username,
         // password,
       }).select('+password');
-      // eslint-disable-next-line no-console
-      // console.log('loginUser userFound', userFound);
       if (!userFound) {
         return false;
       }
-      // compare password
       const passwordMatch = await this.cryptService.compare(password, userFound.password);
       if (!passwordMatch) {
         return false;
@@ -215,10 +211,6 @@ export class UsersService {
       return true;
     } catch (err: unknown) {
       if (err instanceof Error) {
-        /* eslint-disable-next-line no-console */
-        console.log('name', err.name);
-        /* eslint-disable-next-line no-console */
-        console.log('message', err.message);
         throw new ServiceError({
           message: err.message,
         });
