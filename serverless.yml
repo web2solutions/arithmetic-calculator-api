@@ -9,17 +9,18 @@ custom:
     # uncomment next line to use datadog forwarder
     #forwarder: 'arn::of::datadog::forwarder::lambda'
     # enableDDTracing: false # disables default dd-trace.init() in datadog-lambda-js
-  #esbuild:
-  #  bundle: true
-  #  target: node14
-  #  minify: false
-  #  sourcemap: true
-  #  keepNames: true
-  #  plugins: ./esbuild-plugins.js
-  #  exclude: '*'
-  #  watch:
-  #    pattern: ['src/**/*.ts'] # match only typescript files in src directory
-  #    ignore: ['build/**/*']
+  esbuild:
+    bundle: true
+    target: node16
+    minify: true
+    sourcemap: true
+    keepNames: true
+    #plugins: ./esbuild-plugins.js
+    #exclude: '*'
+    #outDir: .build
+    watch:
+      pattern: ['src/**/*.ts'] # match only typescript files in src directory
+      ignore: ['.build/**/*']
   #dotenv:
   #  # default: project root
   #  path: config/.env.test
@@ -29,21 +30,23 @@ custom:
     host: 0.0.0.0
 
 plugins:
-  - serverless-plugin-typescript
+  - serverless-esbuild
+  #- serverless-plugin-typescript
   #- serverless-dotenv-plugin
   - serverless-offline    
 
 provider:
   name: aws
   runtime: nodejs16.x
+  deploymentMethod: direct
   environment: 
-    NODE_ENV: ${env:NODE_ENV} #${env:NODE_ENV} ${file(configs.js)}
+    NODE_ENV: test #${env:NODE_ENV} #${env:NODE_ENV} ${file(configs.js)}
   region: us-east-2
-  memorySize: 128
+  # memorySize: 128
   apiGateway:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   profile: default
-  stage: dev
+  stage: test
 
 package:
   individually: true
@@ -61,6 +64,7 @@ package:
     - /**
   include:
     - config/.env.dev
+    - config/.env.test
     - src/**
     - package.json
 

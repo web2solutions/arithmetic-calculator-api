@@ -11,6 +11,8 @@ export class CacheService {
   constructor() {
     this.client = redis.createClient(redisConfig);
     // eslint-disable-next-line no-console
+    // console.log(redisConfig);
+    // eslint-disable-next-line no-console
     this.client.on('error', (err) => console.log('Redis Client Error', err));
     // eslint-disable-next-line no-console
     // console.log(redisConfig, ENV);
