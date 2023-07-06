@@ -109,7 +109,7 @@ export class UsersService {
     try {
       const skip = (page * size) - size;
       const result = await this.users.find(query).select('-password').limit(size).skip(skip); // .sort( '-createdOn' )
-      const total = await this.users.count();
+      const total = await this.users.count(query);
       return {
         result, page, size, total,
       };
