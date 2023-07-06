@@ -5,7 +5,17 @@ export const setFilter = (event: APIGatewayProxyEvent): Record<any, any> => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let filter: Record<any, any> = {};
   if (event.queryStringParameters?.filter) {
-    filter = { ...(JSON.parse(event.queryStringParameters.filter)) };
+    const decodedFilterString = Buffer.from(event.queryStringParameters?.filter, 'base64').toString();
+    let decodedFilter;
+    try {
+      decodedFilter = JSON.parse(decodedFilterString);
+    } catch (error) {
+      decodedFilter = {};
+    }
+    // decode filters
+    // eslint-disable-next-line no-console
+    console.log(decodedFilter);
+    filter = { ...decodedFilter };
   }
   return filter;
 };
