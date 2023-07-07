@@ -198,3 +198,4 @@ By default, AWS Lambda limits the total concurrent executions across all functio
 4. Adopt the Data Repository Pattern.
 5. 100% Ensure the SOLID principles.
 6. Implement API documentation - swagger OAS.
+7. APM with datadog - custom error classes in 2 levels: service and controller

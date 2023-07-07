@@ -40,6 +40,7 @@
     "@types/bcryptjs": "^2.4.2",
     "aws-lambda": "^1.0.7",
     "bcryptjs": "^2.4.3",
+    "dd-trace": "^4.6.0",
     "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.0",
     "mock-aws-s3": "^4.0.2",
@@ -73,6 +74,7 @@
     "serverless-bundle": "^6.0.0",
     "serverless-esbuild": "^1.45.1",
     "serverless-offline": "^12.0.4",
+    "serverless-plugin-datadog": "^5.36.0",
     "ts-node": "^10.9.1",
     "typescript": "4.4.4",
     "typescript-eslint": "0.0.1-alpha.0"
