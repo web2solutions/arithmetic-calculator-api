@@ -28,6 +28,7 @@ const usersSchema = new mongoose.Schema({
   status: { type: String, default: EUserStatus.inactive },
   token: { type: String, default: '' },
   balance: { type: Number, default: 0 },
+  photo: { type: String, default: null },
   admin: { type: Boolean, default: false },
 }, {
   toJSON: { virtuals: true }, // <-- include virtuals in `JSON.stringify()`

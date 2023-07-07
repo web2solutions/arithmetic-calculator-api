@@ -109,7 +109,7 @@ export class UsersService {
     try {
       const skip = (page * size) - size;
       const result = await this.users.find(query).select('-password').limit(size).skip(skip); // .sort( '-createdOn' )
-      const total = await this.users.count();
+      const total = await this.users.count(query);
       return {
         result, page, size, total,
       };
@@ -169,6 +169,9 @@ export class UsersService {
         // password,
       }).select('+password');
       if (!userFound) {
+        return false;
+      }
+      if (userFound.status === 'inactive') {
         return false;
       }
       const passwordMatch = await this.cryptService.compare(password, userFound.password);

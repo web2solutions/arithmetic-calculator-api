@@ -8,4 +8,5 @@ export interface CreateUserDTO {
   status: EUserStatus;
   admin?: boolean;
   balance?: number;
+  photo?: string;
 }
