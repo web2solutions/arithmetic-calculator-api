@@ -7,4 +7,5 @@ export interface UpdateUserDTO {
   status?: EUserStatus;
   admin?: boolean;
   balance?: number;
+  photo?: string;
 }
