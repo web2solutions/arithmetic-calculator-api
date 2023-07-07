@@ -5,6 +5,9 @@ frameworkVersion: "3"
 useDotenv: true
 
 custom:
+  datadog:
+    site: datadoghq.com
+    apiKeySecretArn: xxx
   #datadog:
     # uncomment next line to use datadog forwarder
     #forwarder: 'arn::of::datadog::forwarder::lambda'
@@ -31,16 +34,15 @@ custom:
 
 plugins:
   - serverless-esbuild
-  #- serverless-plugin-typescript
-  #- serverless-dotenv-plugin
-  - serverless-offline    
-
+  - serverless-offline
+  - serverless-plugin-datadog
 provider:
   name: aws
   runtime: nodejs16.x
   deploymentMethod: direct
   environment: 
     NODE_ENV: test #${env:NODE_ENV} #${env:NODE_ENV} ${file(configs.js)}
+    DD_API_KEY: xxxx
   region: us-east-2
   # memorySize: 128
   apiGateway:
