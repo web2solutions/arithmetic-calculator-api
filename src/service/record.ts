@@ -65,7 +65,7 @@ export class RecordsService {
         operation_response = this.calculateOperationResponse(operation.type, params);
       }
       // eslint-disable-next-line no-console
-      console.log(this.users);
+      // console.log(this.users);
       const user = await this.users.findOne({ _id: params.user_id });
       if (user) {
         if (user.balance >= operation.cost) {

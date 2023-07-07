@@ -26,7 +26,7 @@ export class RecordsController extends RecordsService {
     try {
       const params: CreateRecordDTO = typeof event.body === 'string' ? JSON.parse(event.body) : event.body;
       // eslint-disable-next-line no-console
-      console.log('CREATE identity', identity);
+      // console.log('CREATE identity', identity);
       const result = await this.createRecord({
         user_id: identity.user.user_id,
         operation_id: params.operation_id,

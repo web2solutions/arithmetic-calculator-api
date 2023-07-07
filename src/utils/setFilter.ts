@@ -12,9 +12,6 @@ export const setFilter = (event: APIGatewayProxyEvent): Record<any, any> => {
     } catch (error) {
       decodedFilter = {};
     }
-    // decode filters
-    // eslint-disable-next-line no-console
-    console.log(decodedFilter);
     filter = { ...decodedFilter };
   }
   return filter;
