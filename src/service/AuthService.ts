@@ -32,10 +32,6 @@ export class AuthService {
     } as any;
     const headers = event.headers || {};
     const authorization = headers.authorization || headers.Authorization || false;
-    // eslint-disable-next-line no-console
-    // console.log('=========XXXXXXXXXXXX>>>>>>>>> checkToken version', this.version);
-    // eslint-disable-next-line no-console
-    // console.log('============>>>>>>>>>>>> checkToken', authorization);
     if (!authorization) {
       state.error = Response.error(new ServiceError({
         code: 401,
@@ -46,15 +42,10 @@ export class AuthService {
     if (authorization && authorization.toString().indexOf('Bearer ') > -1) {
       const token = authorization.split('Bearer ')[1];
       state.token = token;
-      // eslint-disable-next-line no-console
-      // console.log('============>>>>>>>>>>>> processing token', authorization);
       const decodedToken = this.jwtService.decodeToken(token);
-      // eslint-disable-next-line no-console
-      // console.log('============>>>>>>>>>>>> this.jwtService.decodeToken(token)', decodedToken);
       state.token = token;
       // eslint-disable-next-line no-extra-boolean-cast
       if (!!!decodedToken) {
-        // Unauthorized invalid token
         state.error = Response.error(new ServiceError({
           code: 401,
           message: 'Unauthorized',
@@ -62,12 +53,7 @@ export class AuthService {
       } else {
         state.user = decodedToken;
       }
-    } /* else {
-      state.error = Response.error(new ServiceError({
-        code: 401,
-        message: 'Unauthorized',
-      }));
-    } */
+    }
     this.error = state.error;
     this.token = state.token;
     this.user = state.user;

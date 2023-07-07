@@ -71,11 +71,3 @@ export class CryptService implements ICryptService {
     });
   }
 }
-
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
-(async (): Promise<void> => {
-  const c = new CryptService();
-  const h = await c.hash('123456');
-  // eslint-disable-next-line no-console
-  console.log(h);
-})();
